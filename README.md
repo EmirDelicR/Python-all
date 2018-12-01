@@ -8,7 +8,7 @@
 [Types in Python](#types) <br/>
 [Modules in Pyhton](#modules)<br/>
 [Exception Handling](#exception) <br/>
-[File handling](#file) <br/>
+
 
 ## intro
 
@@ -405,8 +405,31 @@ print(dir(__builtins__))
 
 ## exception
 
+[Errors and Exceptions](https://docs.python.org/3.7/tutorial/errors.html)
+
+```pyhton
+try:
+  print(x)
+except:
+  print("Something went wrong")
+finally:
+  print("The 'try except' is finished")
+
+# Output: 
+# "Something went wrong"
+# "The 'try except' is finished"
+
+try:
+  print(10/0)
+except ZeroDivisionError as err:
+    print("Zero error: {0}".format(err))
+finally:
+  print("The 'try except' is finished")
+  
+# Zero error: division by zero
+# The 'try except' is finished
+```
+
 [TOP](#content)
 
-## file
 
-[TOP](#content)
