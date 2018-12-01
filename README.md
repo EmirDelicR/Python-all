@@ -37,6 +37,8 @@ Install PyCharm
 sudo snap install pycharm-community --classic
 ```
 
+[TOP](#content) 
+
 ## basic
 
 Print:
@@ -106,6 +108,9 @@ In place operators:
 /* Apply this to all operators (*, -, //, / ...) */
 ```
 
-[TOP](#content) <br/>
+[TOP](#content) 
 
 ## control
+
+
+[TOP](#content) 
