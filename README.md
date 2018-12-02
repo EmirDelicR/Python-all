@@ -6,9 +6,10 @@
 [Basic Concepts](#basic) <br/>
 [Control Structures](#control) <br/>
 [Types in Python](#types) <br/>
-[Modules in Pyhton](#modules)<br/>
+[OOP/Classes](#oop) <br/>
+[Modules in Python](#modules)<br/>
 [Exception Handling](#exception) <br/>
-
+[Regular Expressions](#regex)<br/>
 
 ## intro
 
@@ -122,6 +123,20 @@ Print:
 >> txt = "Hello World"[::-1]
 >> print(txt)
 
+/* Formating string */
+>> some_date = [2, 12, 2018]
+>> print("Date: {0}/{1}/{2}".format(some_date[0], some_date[1], some_date[2]))
+>> Output: Date: 2/12/2018
+
+>> print("{x}/{y}".format(x=100, y=10))
+>> Output: 100/10
+
+/* Check if sting start with some word */
+>> text = "Start the ..."
+>> print(text.startswith("Start"))
+>> Output: True
+>> print(text.endswith("..."))
+>> Output: True
 ```
 
 #### Bitwise operators:
@@ -253,6 +268,26 @@ print_name(get_name())
 
 ```
 
+#### Lambdas
+
+A lambda function is a small anonymous function.
+
+**lambda arguments : expression**
+
+```python
+x = lambda a : a + 10
+print(x(5))
+# 15
+
+x = lambda a, b : a * b
+print(x(5, 6))
+# 30
+
+print((lambda x: x**2)(3))
+# 9
+
+```
+
 #### For loop:
 
 ```python
@@ -326,6 +361,8 @@ ne_list = some_list.copy()
 
 # Reverse list
 some_list.reverse()
+# OR
+print(some_list[::-1])
 
 # Sort list
 some_list.sort()
@@ -342,6 +379,68 @@ fruits.extend(cars)
 
 # Index of element
 print(some_list.index("Test#"))
+
+# Remove duplicates from list
+some_list = ["test", "test1", "test2", "test"]
+
+no_duplicates = list(set(some_list))
+print(no_duplicates)
+
+# List slicing
+some_list = [1, 2, 3, 4, 5, 6, 7]
+print(some_list[2:6])
+# [3, 4, 5, 6]
+
+print(some_list[:3])
+# [1, 2, 3]
+
+print(some_list[3:])
+# [4, 5, 6, 7]
+
+print(some_list[1:6:2])
+# [2, 4, 6]
+
+# List comprehensions
+some_list = [x**2 for x in range(5)]
+print(some_list)
+# [0, 1, 4, 9, 16]
+
+some_list = [x**2 for x in range(5) if x**2 % 2 == 0]
+print(some_list)
+# [0, 4, 16]
+
+# Join is string function to use with list (Must only have strings)
+some_date = ["A", "B", "C"]
+print("/".join(some_date))
+# A/B/C
+
+# Map:
+new_list = [1, 2, 3, 4, 5]
+double_list = list(map(lambda x: x*2, new_list))
+print(double_list)
+# [2, 4, 6, 8, 10]
+
+# Filters
+new_list = [1, 2, 3, 4, 5]
+double_list = list(filter(lambda x: x % 2 == 0, new_list))
+print(double_list)
+# [2, 4]
+
+# Generators
+# Generate list of random words
+import random
+import string
+
+
+def random_word(word_length, element_length):
+    letters = string.ascii_lowercase
+    for i in range(element_length):
+        yield ''.join(random.choice(letters) for i in range(word_length))
+        
+        
+print(list(random_word(4, 5)))
+# ['dtki', 'lazt', 'ioxf', 'ysfa', 'ztpq']
+
 ```
 
 #### Tuples
@@ -350,11 +449,32 @@ Tuple is a collection which is ordered and unchangeable. Allows duplicate member
 
 [Tuples methods](https://www.w3schools.com/python/python_ref_tuple.asp)
 
+```pyhton
+some_tuple = ("apple", "banana", "cherry")
+print(some_tuple)
+
+print(some_tuple[1])
+```
+
 #### Sets
 
 Set is a collection which is unordered and unindexed. No duplicate members.
 
 [Sets methods](https://www.w3schools.com/python/python_ref_set.asp)
+
+```pyhton
+some_set = {"apple", "banana", "cherry"}
+print(some_set)
+# {'cherry', 'apple', 'banana'}
+
+some_set.add("orange")
+print(some_set)
+# {'cherry', 'apple', 'orange', 'banana'}
+
+some_set.update(["orange", "mango", "grapes"])
+print(some_set)
+# {'apple', 'mango', 'grapes', 'cherry', 'banana', 'orange'}
+```
 
 #### Dictionaries
 
@@ -362,7 +482,114 @@ Dictionary is a collection which is unordered, changeable and indexed. No duplic
 
 [Dictionaries methods](https://www.w3schools.com/python/python_ref_dictionary.asp)
 
+```pyhton
+some_dictionary =	{
+  "brand": "Ford",
+  "model": "Mustang",
+  "year": 1964
+}
+print(some_dictionary)
+print(some_dictionary["model"])
+
+
+for x in some_dictionary.values():
+    print(x)
+# Ford Mustang 1964
+
+
+for x, y in some_dictionary.items():
+    print(x, y)
+
+# brand Ford model Mustang year 1964
+
+# Check if key exist
+if "model" in thisdict:
+
+```
+
 [TOP](#content)
+
+
+## oop
+
+[Classes-documentation](https://docs.python.org/3/tutorial/classes.html)
+
+
+#### Class
+
+```python
+class Person:
+
+    # Initial object
+    def __init__(self, name, text):
+        self.name = name
+        self.text = text
+
+    def __getitem__(self, name):
+        return getattr(self, name)
+
+    def __setitem__(self, name, value):
+        return setattr(self, name, value)
+
+    def __delitem__(self, name):
+        return delattr(self, name)
+
+    def __contains__(self, name):
+        return hasattr(self, name)
+    
+    def __add__(self, num):
+        return "Sum of {0} and {1} is {2}".format(num[0], num[1], num[0] + num[1])
+
+    def print_data(self):
+        print("My name is {0} and text is {1}".format(self.name, self.text))
+
+
+person = Person('Emir', 'This is text')
+
+print("Name: " + person["name"])
+# Name: Emir
+
+print("Text: " + person["text"])
+# Text: This is text
+
+person['name'] = 'Emir Delic';
+print("Item name: " + person["name"])
+# Item name: Emir Delic
+
+person.print_data()
+# My name is Emir Delic and text is This is text
+
+print("Contains key text: {0}".format('text' in person))
+# Contains key text: True
+del(person["text"])
+print("Contains key text: {0}".format('text' in person))
+# Contains key text: False
+
+# Operator overloading (__add__ and all different function)
+# is to change the behavior of operator
+
+print(person + [2, 3])
+
+```
+
+#### Inheritance
+
+```python
+class Student(Person):
+
+    def __init__(self, obj):
+        self.grades = obj
+
+
+grades = {'Math': '5', 'Bio': '4'}
+student = Student(grades)
+print(student['grades'])
+# {'Math': '5', 'Bio': '4'}
+```
+
+
+[TOP](#content)
+
 
 ## modules
 
@@ -433,3 +660,14 @@ finally:
 [TOP](#content)
 
 
+## regex
+
+[Regex-documentation](https://docs.python.org/3.7/library/re.html) 
+
+```pyhton
+
+
+```
+
+
+[TOP](#content)
