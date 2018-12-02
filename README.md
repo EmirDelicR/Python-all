@@ -12,6 +12,7 @@
 [Regular Expressions](#regex)<br/>
 [JSON in Python](#json)<br/>
 [Dates in Python](#date)<br/>
+[Desktop app with Tkinter](#desktop)<br/>
 
 ## intro
 
@@ -771,7 +772,7 @@ test.json
 
 ## date
 
-[DateTime Documetation](https://docs.python.org/3.7/library/datetime.html)
+[DateTime Documentation](https://docs.python.org/3.7/library/datetime.html)
 
 [DateTime w3School](https://www.w3schools.com/python/python_datetime.asp)
 
@@ -782,5 +783,24 @@ x = datetime.datetime.now()
 print(x.year)
 print(x.strftime("%A"))
 ```
+
+[TOP](#content)
+
+
+## desktop
+
+[Tkinter documentation](https://docs.python.org/3.7/library/tkinter.html)
+
+[Widget list](https://python-textbok.readthedocs.io/en/1.0/Introduction_to_GUI_Programming.html) 
+
+[Tutorial](https://www.tutorialspoint.com/python/python_gui_programming.htm) 
+
+Install tkinter
+
+```console
+$ sudo apt-get install python3-tk
+```
+
+** Look file Desktop-app **
 
 [TOP](#content)
