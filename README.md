@@ -10,6 +10,8 @@
 [Modules in Python](#modules)<br/>
 [Exception Handling](#exception) <br/>
 [Regular Expressions](#regex)<br/>
+[JSON in Python](#json)<br/>
+[Dates in Python](#date)<br/>
 
 ## intro
 
@@ -579,6 +581,8 @@ class Student(Person):
 
     def __init__(self, obj):
         self.grades = obj
+        # call constructor of super class
+        super().__init__()
 
 
 grades = {'Math': '5', 'Bio': '4'}
@@ -587,6 +591,14 @@ print(student['grades'])
 # {'Math': '5', 'Bio': '4'}
 ```
 
+#### Private in class
+
+```python
+class SomeClass:
+    ## Just append __ before variable
+    __hidden_variable = 0
+
+```
 
 [TOP](#content)
 
@@ -665,9 +677,110 @@ finally:
 [Regex-documentation](https://docs.python.org/3.7/library/re.html) 
 
 ```pyhton
+import re
 
+pattern = r"eggs"
+
+# Must start with pattern
+if re.match(pattern, "eggs eggs test"):
+    print('Match found')
+else:
+    print('Match Not found')
+
+# can be anywhere in string
+if re.search(pattern, "eggs eggs test"):
+    print('Match found')
+else:
+    print('Match Not found')
+
+print(re.findall(pattern, "eggs eggs test"))
+# ['eggs', 'eggs']
+
+text = "My name is Emir, Hi Emir"
+# . can replac any string exc(\n)
+print(re.findall(r"E..r", text)) 
+# ['Emir', 'Emir']
+
+# ^ - means start of string and $ - is end of string
+```
+
+
+[TOP](#content)
+
+
+## json
+
+[JSON Documentation](https://docs.python.org/3.7/library/json.html)
+
+```python
+import json
+
+# some string:
+text = '{ "name":"John", "age":30, "city":"New York"}'
+print("Type of variable text is: {0}".format(type(text)))
+# parse text to JSON:
+json_data = json.loads(text)
+print(json_data)
+print("Type of variable json_data is: {0}".format(type(json_data)))
+
+# Convert back to string
+json_dumps = json.dumps(json_data)
+print(json_dumps)
+print("Type of variable json_data is: {0}".format(type(json_dumps)))
+
+# Print in nice way
+print("Formatted json: ")
+print(json.dumps(json_data, sort_keys=True, indent=4))
+
+
+with open('test.json') as data_file:
+    print("Type of variable data_file is: {0}".format(type(data_file)))
+    data = json.load(data_file)
+
+print("Type of variable data is: {0}".format(type(data)))
+print(data)
 
 ```
 
+test.json
+
+```json
+{
+    "maps": [
+        {
+            "id": "blabla",
+            "iscategorical": "0"
+        },
+        {
+            "id": "blabla",
+            "iscategorical": "0"
+        }
+    ],
+    "masks": {
+        "id": "valore"
+    },
+    "om_points": "value",
+    "parameters": {
+        "id": "valore"
+     }
+}
+
+```
+
+[TOP](#content)
+
+## date
+
+[DateTime Documetation](https://docs.python.org/3.7/library/datetime.html)
+
+[DateTime w3School](https://www.w3schools.com/python/python_datetime.asp)
+
+```python
+import datetime
+
+x = datetime.datetime.now()
+print(x.year)
+print(x.strftime("%A"))
+```
 
 [TOP](#content)
