@@ -2,23 +2,22 @@ from logger.index import Logger
 import time
 import os
 
-ABSOLUTE_PATH = os.path.abspath(os.path.dirname(__file__))
-
+PATH = os.path.dirname(__file__)
 
 class File:
     """File helper class to read and write to file"""
 
-    __PATH = ABSOLUTE_PATH + '/storage/'
+    __PATH = PATH + '/storage/'
 
     def __init__(self):
         self.logger = Logger()
 
-    def read_file(self, name):
+    def read_file(self, path, file_name):
         """ Read from file """
 
         try:
-            path = self.__PATH + name
-            with open(path) as file:
+            path = path + file_name
+            with open(path, encoding='utf-8') as file:
                 file_data = file.read()
             return file_data
         except FileNotFoundError as err:
@@ -48,15 +47,15 @@ class File:
         """List all storage"""
         print("Files in the storage: ", os.listdir(self.__PATH))
 
-    def read_file_timed(self, name):
+    def read_file_timed(self, file_name):
         """Return the contents of the file at 'path' and measure time required."""
 
         start_time = time.time()
 
-        self.read_file(name)
+        self.read_file(self.__PATH, file_name)
         stop_time = time.time()
         time_difference = stop_time - start_time
-        message = "Time required for reading {file} = {time}".format(file=name, time=time_difference)
+        message = "Time required for reading {file} = {time}".format(file=file_name, time=time_difference)
         self.logger.log_message(message, self.logger.INFO)
 
     def write_to_file_timed(self, message, name):
