@@ -11,6 +11,7 @@
 [Exception Handling](#exception) <br/>
 [Regular Expressions](#regex)<br/>
 [JSON in Python](#json)<br/>
+[URLLIB module](#url)<br/>
 [Dates in Python](#date)<br/>
 [Desktop app with Tkinter](#desktop)<br/>
 
@@ -37,6 +38,21 @@ $ python3
 /* Exit the console */
 >> exit()
 /* To clear console  press CTRL+l */
+```
+
+Open python documentation from terminal 
+
+```console
+$ python -m pydoc <name of module (math)>
+$ python -m pydoc <name of type (tuple)>
+$ python -m pydoc <name of function (pow)>
+
+# search module or keyword
+$ python -m pydoc -k <pattern (ftp)>
+
+# Open pydoc on server
+$ sudo python -m pydoc -p <Port number>
+$ sudo python -m pydoc -g
 ```
 
 Install PyCharm
@@ -668,6 +684,8 @@ finally:
   
 # Zero error: division by zero
 # The 'try except' is finished
+
+# Look file-reader for example
 ```
 
 [TOP](#content)
@@ -765,6 +783,41 @@ test.json
         "id": "valore"
      }
 }
+
+```
+
+[TOP](#content)
+
+
+## url
+
+
+```python
+# https://www.youtube.com/watch?v=LosIGgon_KM&index=2&list=LLXTQOhCUnflnafxq6fz73iQ
+
+# Protocol: https, http, ftp ...
+
+# Host: www.youtube.com
+
+# Path: /watch
+
+# Querystring: v=LosIGgon_KM&index=2&list=LLXTQOhCUnflnafxq6fz73iQ
+
+# Fragment: comes after # - to navigate through single page
+
+# python -m pydoc urllib
+
+# contains
+
+# request: open URLs
+# response: (used internally)
+# error: request exceptions
+# parse: useful URL functions
+storage
+
+# in console run python3
+# import urllib
+# dir(urllib)
 
 ```
 

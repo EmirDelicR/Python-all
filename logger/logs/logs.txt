@@ -1,0 +1,14 @@
+INFO: 2018-12-04 11:39:31,809 - Text
+DEBUG: 2018-12-04 11:57:03,841 - Text123
+INFO: 2018-12-04 12:05:28,059 - From File Class
+INFO: 2018-12-04 12:06:27,572 - From File Class
+INFO: 2018-12-04 12:06:27,584 - Time required for ./text.txt = 0.011264801025390625
+INFO: 2018-12-04 12:06:27,585 - Time required for ./text1.txt = 0.00027441978454589844
+INFO: 2018-12-04 12:06:27,585 - Time required for ./text1.txt = 9.584426879882812e-05
+INFO: 2018-12-04 12:06:27,586 - Time required for ./text1.txt = 0.00012063980102539062
+INFO: 2018-12-04 12:06:27,586 - Time required for ./text1.txt = 8.0108642578125e-05
+ERROR: 2018-12-04 12:51:31,611 - [Errno 2] No such file or directory: '/home/emir/Desktop/Python-all/file-reader/storage/logs'
+ERROR: 2018-12-04 12:51:53,301 - [Errno 2] No such file or directory: '/home/emir/Desktop/Python-all/file-reader/storage/logs'
+INFO: 2018-12-04 13:02:14,432 - Time required for logs.txt = 2.1457672119140625e-06
+INFO: 2018-12-04 13:03:05,374 - Time required for writing to logs.txt = 0.0003857612609863281
+INFO: 2018-12-04 13:03:33,784 - Time required for reading logs.txt = 9.226799011230469e-05
