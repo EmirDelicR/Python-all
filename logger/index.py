@@ -67,7 +67,7 @@ class Logger:
         except FileNotFoundError as err:
             self.logger.log_message(err, self.logger.ERROR)
 
-    def colored(self, data):
+    def __colored(self, data):
         """Output data to console in colors"""
         log_list = data.split('\n')
         for message in log_list:

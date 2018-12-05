@@ -813,7 +813,6 @@ test.json
 # response: (used internally)
 # error: request exceptions
 # parse: useful URL functions
-storage
 
 # in console run python3
 # import urllib
