@@ -40,6 +40,16 @@ $ python3
 /* To clear console  press CTRL+l */
 ```
 
+Install PIP and Selenium
+
+```console
+$ sudo apt-get install python3-pip
+# Use:
+$ pip3 -V
+
+$ pip3 install selenium
+``` 
+
 Open python documentation from terminal 
 
 ```console
