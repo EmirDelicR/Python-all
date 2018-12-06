@@ -1,0 +1,7 @@
+<ul>
+  {% for photo in all_photos %}
+  <li>
+    <a href="{% url 'detail' photo.id  %}"> {{ photo.name }} </a>
+  </li>
+  {% endfor %}
+</ul>

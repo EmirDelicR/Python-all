@@ -14,6 +14,7 @@
 [URLLIB module](#url)<br/>
 [Dates in Python](#date)<br/>
 [Desktop app with Tkinter](#desktop)<br/>
+[Django](#django)<br/>
 
 ## intro
 
@@ -48,9 +49,9 @@ $ sudo apt-get install python3-pip
 $ pip3 -V
 
 $ pip3 install selenium
-``` 
+```
 
-Open python documentation from terminal 
+Open python documentation from terminal
 
 ```console
 $ python -m pydoc <name of module (math)>
@@ -69,6 +70,26 @@ Install PyCharm
 
 ```console
 sudo snap install pycharm-community --classic
+```
+
+Virtual ENV
+
+[VE](https://docs.python.org/3/tutorial/venv.html)
+
+```console
+$ sudo apt-get install python3-venv
+$ python3 -m venv <name>
+
+# activate virtual env
+$ source <name>/bin/activate
+
+# Install django
+$ cd <name>
+$ pip install django
+
+# deactivate virtual env
+$ deactivate
+
 ```
 
 [TOP](#content)
@@ -465,8 +486,8 @@ def random_word(word_length, element_length):
     letters = string.ascii_lowercase
     for i in range(element_length):
         yield ''.join(random.choice(letters) for i in range(word_length))
-        
-        
+
+
 print(list(random_word(4, 5)))
 # ['dtki', 'lazt', 'ioxf', 'ysfa', 'ztpq']
 
@@ -538,11 +559,9 @@ if "model" in thisdict:
 
 [TOP](#content)
 
-
 ## oop
 
 [Classes-documentation](https://docs.python.org/3/tutorial/classes.html)
-
 
 #### Class
 
@@ -565,7 +584,7 @@ class Person:
 
     def __contains__(self, name):
         return hasattr(self, name)
-    
+
     def __add__(self, num):
         return "Sum of {0} and {1} is {2}".format(num[0], num[1], num[0] + num[1])
 
@@ -629,7 +648,6 @@ class SomeClass:
 
 [TOP](#content)
 
-
 ## modules
 
 [List of build-in modules](https://docs.python.org/3/py-modindex.html)
@@ -681,7 +699,7 @@ except:
 finally:
   print("The 'try except' is finished")
 
-# Output: 
+# Output:
 # "Something went wrong"
 # "The 'try except' is finished"
 
@@ -691,7 +709,7 @@ except ZeroDivisionError as err:
     print("Zero error: {0}".format(err))
 finally:
   print("The 'try except' is finished")
-  
+
 # Zero error: division by zero
 # The 'try except' is finished
 
@@ -700,10 +718,9 @@ finally:
 
 [TOP](#content)
 
-
 ## regex
 
-[Regex-documentation](https://docs.python.org/3.7/library/re.html) 
+[Regex-documentation](https://docs.python.org/3.7/library/re.html)
 
 ```pyhton
 import re
@@ -727,15 +744,13 @@ print(re.findall(pattern, "eggs eggs test"))
 
 text = "My name is Emir, Hi Emir"
 # . can replac any string exc(\n)
-print(re.findall(r"E..r", text)) 
+print(re.findall(r"E..r", text))
 # ['Emir', 'Emir']
 
 # ^ - means start of string and $ - is end of string
 ```
 
-
 [TOP](#content)
-
 
 ## json
 
@@ -775,32 +790,29 @@ test.json
 
 ```json
 {
-    "maps": [
-        {
-            "id": "blabla",
-            "iscategorical": "0"
-        },
-        {
-            "id": "blabla",
-            "iscategorical": "0"
-        }
-    ],
-    "masks": {
-        "id": "valore"
+  "maps": [
+    {
+      "id": "blabla",
+      "iscategorical": "0"
     },
-    "om_points": "value",
-    "parameters": {
-        "id": "valore"
-     }
+    {
+      "id": "blabla",
+      "iscategorical": "0"
+    }
+  ],
+  "masks": {
+    "id": "valore"
+  },
+  "om_points": "value",
+  "parameters": {
+    "id": "valore"
+  }
 }
-
 ```
 
 [TOP](#content)
 
-
 ## url
-
 
 ```python
 # https://www.youtube.com/watch?v=LosIGgon_KM&index=2&list=LLXTQOhCUnflnafxq6fz73iQ
@@ -848,14 +860,13 @@ print(x.strftime("%A"))
 
 [TOP](#content)
 
-
 ## desktop
 
 [Tkinter documentation](https://docs.python.org/3.7/library/tkinter.html)
 
-[Widget list](https://python-textbok.readthedocs.io/en/1.0/Introduction_to_GUI_Programming.html) 
+[Widget list](https://python-textbok.readthedocs.io/en/1.0/Introduction_to_GUI_Programming.html)
 
-[Tutorial](https://www.tutorialspoint.com/python/python_gui_programming.htm) 
+[Tutorial](https://www.tutorialspoint.com/python/python_gui_programming.htm)
 
 Install tkinter
 
@@ -864,5 +875,162 @@ $ sudo apt-get install python3-tk
 ```
 
 ** Look file Desktop-app **
+
+[TOP](#content)
+
+## django
+
+[Django docks](https://docs.djangoproject.com/en/2.1/intro/tutorial01/)
+
+Navigate to folder like (Desktop)
+
+(See django-project folder)
+
+```console
+# Instal VE if you dont have
+$ sudo apt-get install python3-venv
+# Create VE with name of project
+$ python3 -m venv <name>
+
+# activate virtual env
+$ source <name>/bin/activate
+
+# Install django
+$ cd <name>
+$ pip install django
+
+# check version
+$ python -m django --version
+
+# create django project
+$ django-admin startproject <name>
+$ cd <name>
+
+# folder structure
+- mysite
+--- app
+--- mysite
+--- env
+# create django app
+# django-admin startapp - command ; app - name of app
+$ django-admin startapp app
+
+# copy urls folder from startproject <name> (mysite) to app
+
+# deactivate virtual env
+$ deactivate
+
+```
+
+**Run server**
+
+```console
+# navigate to startproject <name> (mysite)
+$ .../mysite$ python manage.py runserver
+```
+
+**Create an view**
+
+copy file **_urls_** from mysite/ and add to app/
+
+in app/urls create a pattern
+
+```python
+from app import views
+
+urlpatterns = [
+    path('', views.index, name='index'),
+]
+```
+
+in mysite/urls
+
+```python
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('photos/', include('app.urls')),
+]
+```
+
+in app/views.py
+
+```python
+def index(req):
+    return HttpResponse("<h>This is home page</h>")
+```
+
+**Applaying migrations**
+
+```console
+python manage.py migrate
+```
+
+**Creating models**
+
+in app/models.py
+
+```python
+class Photo(models.Model):
+    name = models.CharField(max_length=100)
+    creator = models.CharField(max_length=100)
+    price = models.CharField(max_length=100)
+```
+
+in mysite/settings.py
+
+```python
+# Application definition
+
+INSTALLED_APPS = [
+    'app.apps.AppConfig',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+]
+```
+
+Run command in terminal
+
+```console
+# > mysite$ is an folder
+> mysite$ python manage.py makemigrations app
+# Output: app/migrations/0001_initial.py
+
+> mysite$ python manage.py sqlmigrate app 0001
+
+> mysite$ python manage.py migrate
+```
+
+**Adding data from terminal**
+
+```console
+# > mysite$ is an folder
+> mysite$ python manage.py shell
+
+>>> from app.models import Photo
+
+>>> Photo.objects.all()
+>>> photo = Photo()
+>>> photo.name = "Test"
+>>> ... add rest
+>>> photo.save()
+>>> photo.name
+>>> Output: 'Test'
+```
+
+**Admin panel adding data in admin panel**
+
+```console
+# > mysite$ is an folder
+> mysite$ python manage.py createsuperuser
+# Run server
+> mysite$ python manage.py runserver
+# Go to URL/admin and login
+```
+
+Register model to see in admin panel (goto app/admin.py) and add data
 
 [TOP](#content)
