@@ -1033,4 +1033,10 @@ Run command in terminal
 
 Register model to see in admin panel (goto app/admin.py) and add data
 
+**REST with django**
+
+```console
+pip install djangorestframework
+```
+
 [TOP](#content)
