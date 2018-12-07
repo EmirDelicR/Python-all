@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.http import Http404
 from .models import Photo
-from django.shortcuts import render
 
 # Create your views here.
 

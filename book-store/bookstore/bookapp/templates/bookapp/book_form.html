@@ -1,0 +1,16 @@
+<div>
+  <h1>Book Form</h1>
+  <form method="post">
+    {% csrf_token %} {% for field in form %}
+    <div>
+      <div>
+        <span>{{ field.errors }}</span>
+      </div>
+
+      <label>{{ field.label_tag }}</label>
+      <div>{{ field }}</div>
+      <hr />
+    </div>
+    {% endfor %} <button type="submit">Save</button>
+  </form>
+</div>

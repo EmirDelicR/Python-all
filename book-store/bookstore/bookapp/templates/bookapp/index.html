@@ -1,0 +1,12 @@
+{% extends 'bookapp/base.html' %} {% block body%}
+<div>
+  <h1>Books app home page</h1>
+  {% for book in object_list %}
+  <ul>
+    <li>
+      <a href="{% url 'books:detail' book.id %}"> {{ book.name }} </a>
+    </li>
+  </ul>
+  {% endfor %}
+</div>
+{% endblock %}
