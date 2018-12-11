@@ -1,0 +1,41 @@
+{% extends 'blogapp/base.html' %}
+
+{% block content%}
+<h1>{{ post.title }}</h1>
+
+{% if post.published_date %}
+  <div class="date">{{ post.published_date }}</div>
+{% else %}
+  <a href="{% url 'post_publish' pk=post.pk %}">Publish</a>
+{% endif %}
+  <p class="post-content">{{ post.text|safe|linebreaks }}</p>
+
+{% if user.is_authenticated %}
+<div>
+  <a href="{% url 'post_edit' pk=post.pk %}">Edit</a>
+  <a href="{% url 'post_remove' pk=post.pk %}">Remove</a>
+</div>
+{% endif %}
+
+<hr />
+<a href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
+
+<div class="container">
+  {% for comment in post.comments.all %} <br />
+    {% if user.is_authenticated or comment.approved_comment %}
+      {{ comment.create_date }}
+      {% if not comment.approved_comment %}
+        <div>
+          <a href="{% url 'comment_approve' pk=comment.pk %}">Approve</a>
+          <a href="{% url 'comment_remove' pk=comment.pk %}">Remove</a>
+        </div>
+      {% endif %}
+      <p>{{ comment.text|safe|linebreaks }}</p>
+      <p>Posted By: {{ comment.author }}</p>
+    {% endif %}
+    {% empty %}
+    <p>No Comments!</p>
+  {% endfor %}
+</div>
+
+{% endblock %}
