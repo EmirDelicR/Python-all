@@ -1101,22 +1101,50 @@ mysite$ python manage.py shell
 >>> Output: 'Test'
 ```
 
-**Admin panel adding data in admin panel**
+**Creating serializer for model**
 
-```console
-# > mysite$ is an folder
-> mysite$ python manage.py createsuperuser
-# Run server
-> mysite$ python manage.py runserver
-# Go to URL/admin and login
+[Django-serializers](https://docs.djangoproject.com/en/2.2/topics/serialization/)
+
+[Rest-Framework-serializers](https://www.django-rest-framework.org/api-guide/serializers/#serializers)
+
+in app/models.py
+
+**_Create an file app/serializers.py_**
+
+```python
+from rest_framework import serializers
+from .models import Photo
+
+
+class PhotoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Photo
+        fields = ("name", "creator", "price")
 ```
 
-Register model to see in admin panel (goto app/admin.py) and add data
+**Creating view for this endpoint**
 
-**REST with django**
+[rest-generic-view](https://www.django-rest-framework.org/api-guide/generic-views/)
 
-```console
-pip install djangorestframework
+```python
+from rest_framework import generics
+from .models import Photo
+from .serializers import PhotoSerializer
+
+class ListPhotoView(generics.ListAPIView):
+    """
+    Provides a get method handler.
+    """
+    queryset = Photo.objects.all()
+    serializer_class = PhotoSerializer
+```
+
+**Add route to urls.py**
+
+```python
+urlpatterns += [
+  path('todo/', views.ListTodoView.as_view(), name="todo-all")
+]
 ```
 
 [TOP](#content)
