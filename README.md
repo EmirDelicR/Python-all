@@ -1296,7 +1296,7 @@ REST_FRAMEWORK = {
 }
 ```
 
-**_Set Swagger REEAT API documentation_**
+**_Set Swagger REST API documentation_**
 
 [Swagger-docs](https://github.com/axnsan12/drf-yasg#installation)
 
@@ -1343,4 +1343,4 @@ path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc
 
 [best-practice](https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api)
 
-[heroku-publisch](https://rapidapi.com/blog/python-django-rest-api-tutorial/)
+[heroku-publish](https://rapidapi.com/blog/python-django-rest-api-tutorial/)
