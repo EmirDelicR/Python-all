@@ -993,10 +993,14 @@ python3 manage.py migrate
 python3 manage.py createsuperuser --email admin@example.com --username admin
 ```
 
-**Store requirements**
+**Store and install requirements**
 
 ```console
 $ pip freeze > requirements.txt
+```
+
+```console
+pip install -r requirements.txt
 ```
 
 **Add dependency**
@@ -1239,6 +1243,8 @@ DEBUG_MODE=xxx API_SECRET=yyy python manage.py runserver
 
 [Sentry-docks](https://docs.sentry.io/platforms/python/)
 
+[Set-logger-with-sentry](https://lincolnloop.com/blog/django-logging-right-way/)
+
 Sign in to Sentry
 
 ```console
@@ -1290,8 +1296,51 @@ REST_FRAMEWORK = {
 }
 ```
 
+**_Set Swagger REEAT API documentation_**
+
+[Swagger-docs](https://github.com/axnsan12/drf-yasg#installation)
+
+```console
+pip install -U drf-yasg
+```
+
+```python
+# in settings.py
+INSTALLED_APPS = [
+   ...
+   'drf_yasg',
+   ...
+]
+
+# in urls.py
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+schema_view = get_schema_view(
+   openapi.Info(
+      title="Snippets API",
+      default_version='v1',
+      description="Test description",
+      terms_of_service="",
+      contact=openapi.Contact(email=""),
+      license=openapi.License(name=""),
+   ),
+   public=True,
+   permission_classes=(permissions.AllowAny,),
+)
+
+# Swagger documentation
+path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+```
+
 ### Useful links
+
+[extend-tutorial](https://sunscrapers.com/blog/ultimate-tutorial-django-rest-framework-part-1/)
 
 [tutorial](https://medium.com/backticks-tildes/lets-build-an-api-with-django-rest-framework-32fcf40231e5)
 
 [best-practice](https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api)
+
+[heroku-publisch](https://rapidapi.com/blog/python-django-rest-api-tutorial/)
