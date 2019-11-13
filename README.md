@@ -1143,8 +1143,155 @@ class ListPhotoView(generics.ListAPIView):
 
 ```python
 urlpatterns += [
-  path('todo/', views.ListTodoView.as_view(), name="todo-all")
+  path('photos/', views.ListTodoView.as_view(), name="photos-all")
 ]
 ```
 
+**Testing App**
+
+Look server/api/tests.py file
+
+```console
+python3 manage.py test
+```
+
 [TOP](#content)
+
+### Bonus content
+
+**Create decorators**
+
+Create decorators.py file
+
+```python
+from rest_framework.response import Response
+from rest_framework.views import status
+
+def validate_request_data(fn):
+    def decorated(*args, **kwargs):
+        name = args[0].request.data.get("name", "")
+        creator = args[0].request.data.get("creator", "")
+        price = args[0].request.data.get("price", "")
+        if not name and not creator and not price:
+            return Response(
+                data={
+                    "message": "All fields for photo are necessary"
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        return fn(*args, **kwargs)
+    return decorated
+```
+
+**Create custom tasks**
+
+Create management/commands/test.py file
+
+```python
+from django.core.management.base import BaseCommand
+
+class Command(BaseCommand):
+    def handle(self, *args, **kwargs):
+        print("Execute helper function from commands")
+```
+
+To execute (! how you call file you need to call here)
+
+```console
+python3 manage.py test
+```
+
+**Customize settings in main app**
+
+**_Set Environment on app_**
+
+```python
+# in mysite/settings.py
+MY_ENV = os.environ.get('MY_ENV')
+
+if MY_ENV == 'DEVELOP' or MY_ENV == 'LOCAL':
+    OPTIONS = {
+        'DEBUG': True,
+        'DATABASE_NAME': 'Some Db Name',
+        'LOGPATH': '/var/log/log-file-name/',
+    }
+elif MY_ENV == 'PRODUCTION':
+    OPTIONS = {
+        'DEBUG': False,
+        'DATABASE_NAME': 'rlb_essensmarken_production',
+        'LOGPATH': '/var/log/rlb_essensmarken_production/',
+    }
+else:
+    raise ValueError('Environment variable "MY_ENV" must be defined to be either DEVELOP or PRODUCTION. Current value: ' + str(MY_ENV))
+```
+
+```console
+MY_ENV='DEVELOP' python3 manage.py runserver
+```
+
+Can pass multi arguments
+
+```console
+DEBUG_MODE=xxx API_SECRET=yyy python manage.py runserver
+```
+
+**_Set Sentry on app_**
+
+[Sentry-docks](https://docs.sentry.io/platforms/python/)
+
+Sign in to Sentry
+
+```console
+pip install --upgrade sentry-sdk
+```
+
+```python
+import sentry_sdk
+from sentry_sdk import configure_scope
+from sentry_sdk.integrations.django import DjangoIntegration
+
+sentry_sdk.init(
+    dsn="DNS_KEY",
+    integrations=[DjangoIntegration()],
+    environment=MY_ENV.lower()
+)
+
+with configure_scope() as scope:
+    scope.set_tag("API_VERSION", "SOME_API_VERSION")
+```
+
+**_Set rest of the settings_**
+
+```python
+DEBUG = OPTIONS['DEBUG']
+ALLOWED_HOSTS = ['*']
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# Create other paths
+MEDIA_ROOT = os.path.join('/data/media', 'file_name')
+MEDIA_URL = '/media/'
+
+MEDIA_PUBLIC_ROOT = os.path.join(MEDIA_ROOT, 'public')
+```
+
+**_Set rest_framework in the settings_**
+
+```python
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+    	# 'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+    	'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
+}
+```
+
+### Useful links
+
+[tutorial](https://medium.com/backticks-tildes/lets-build-an-api-with-django-rest-framework-32fcf40231e5)
+
+[best-practice](https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api)
