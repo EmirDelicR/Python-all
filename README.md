@@ -902,79 +902,104 @@ $ pip install django
 # check version
 $ python -m django --version
 
+# install django rest framework
+$ pip install djangorestframework
+
 # create django project
-$ django-admin startproject <name>
+$ django-admin startproject <name (mysite)>
 $ cd <name>
 
-# folder structure
-- mysite
---- app
---- mysite
---- env
 # create django app
 # django-admin startapp - command ; app - name of app
 $ django-admin startapp app
 
-# copy urls folder from startproject <name> (mysite) to app
+# folder structure
+- mysite (rename this to server)
+--- app
+--- mysite
+--- env
+
+# copy urls folder from mysite to app
 
 # deactivate virtual env
 $ deactivate
 
 ```
 
-**Run server**
-
-```console
-# navigate to startproject <name> (mysite)
-$ .../mysite$ python manage.py runserver
-```
-
-**Create an view**
-
-copy file **_urls_** from mysite/ and add to app/
-
-in app/urls create a pattern
-
-```python
-from app import views
-
-urlpatterns = [
-    path('', views.index, name='index'),
-]
-```
+**Set up URL**
 
 in mysite/urls
 
 ```python
+from django.contrib import admin
+from django.urls import path, include
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('photos/', include('app.urls')),
+    path('api/', include("app.urls")),
 ]
 ```
+
+in app/urls
+
+```python
+from django.urls import path
+from django.views.decorators.csrf import csrf_exempt
+
+from rest_auth.views import LogoutView, PasswordChangeView
+from rest_framework import routers
+from rest_framework.authtoken.views import obtain_auth_token
+
+from . import views
+
+router = routers.DefaultRouter()
+
+urlpatterns = router.urls
+
+urlpatterns += [
+    path('', views.home, name='home'),
+    path('admin/login/', obtain_auth_token),
+    path('logout/', csrf_exempt(LogoutView.as_view())),
+    path('password/change/', PasswordChangeView.as_view()),
+    # To pass id to route
+    # path('route/<str:id>', views.SomeView.as_view()),
+]
+```
+
+**Note - install missing dependency and add simple view**
+
+```console
+pip install django-rest-auth
+```
+
+**Create an view**
 
 in app/views.py
 
 ```python
-def index(req):
+def home(req):
     return HttpResponse("<h>This is home page</h>")
 ```
 
-**Applaying migrations**
+**Applying migrations**
 
 ```console
-python manage.py migrate
+python3 manage.py migrate
 ```
 
-**Creating models**
+**Create Superuser**
 
-in app/models.py
-
-```python
-class Photo(models.Model):
-    name = models.CharField(max_length=100)
-    creator = models.CharField(max_length=100)
-    price = models.CharField(max_length=100)
+```console
+python3 manage.py createsuperuser --email admin@example.com --username admin
 ```
+
+**Store requirements**
+
+```console
+$ pip freeze > requirements.txt
+```
+
+**Add dependency**
 
 in mysite/settings.py
 
@@ -989,26 +1014,81 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Add this
+    'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
+    'app.apps.AppConfig', # Form step django-admin startapp app
 ]
 ```
+
+**Run server**
+
+```console
+# navigate to startproject <name> (mysite)
+$ .../mysite$ python3 manage.py runserver
+```
+
+go to : http://127.0.0.1:8000/api/
+
+or go to : http://127.0.0.1:8000/admin/
+
+**Creating models**
+
+[Django-models](https://docs.djangoproject.com/en/2.2/topics/db/models/)
+
+in app/models.py
+
+**_Create an base model look in todo-app/server/api/models_**
+
+```python
+class Photo(models.Model):
+    name = models.CharField(max_length=100)
+    creator = models.CharField(max_length=100)
+    price = models.CharField(max_length=100)
+```
+
+**Register model to admin interface**
+
+[Django-admin-site](https://docs.djangoproject.com/en/2.2/ref/contrib/admin/)
+
+in app/admin.py
+
+```python
+# Register your models here.
+from .models import Photo
+
+# Use decorator to register
+@admin.register(Photo)
+class PhotoAdmin(admin.ModelAdmin):
+    list_display = ('name', 'creator')
+    search_fields = ('name')
+
+# Other way to register
+# admin.site.register(Photo)
+```
+
+**Make and run new migration**
 
 Run command in terminal
 
 ```console
-# > mysite$ is an folder
-> mysite$ python manage.py makemigrations app
+# mysite$ is an folder
+mysite$ python3 manage.py makemigrations app
 # Output: app/migrations/0001_initial.py
 
-> mysite$ python manage.py sqlmigrate app 0001
+# This will create an table in sql
+mysite$ python3 manage.py sqlmigrate app 0001
 
-> mysite$ python manage.py migrate
+# Run migration
+mysite$ python3 manage.py migrate
 ```
 
 **Adding data from terminal**
 
 ```console
-# > mysite$ is an folder
-> mysite$ python manage.py shell
+# mysite$ is an folder
+mysite$ python manage.py shell
 
 >>> from app.models import Photo
 
