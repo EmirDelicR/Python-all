@@ -145,7 +145,8 @@ class AddTodoTest(BaseViewTest):
             method="post",
             data=self.valid_data
         )
-        self.assertEqual(response.data, self.valid_data)
+        self.assertEqual(response.data['title'], self.valid_data['title'])
+        self.assertEqual(response.data['task'], self.valid_data['task'])
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         # test with invalid data
         response = self.make_a_request(
@@ -173,7 +174,8 @@ class UpdateTodoTest(BaseViewTest):
             id=Todo.objects.all()[1].id,
             data=self.valid_data
         )
-        self.assertEqual(response.data, self.valid_data)
+        self.assertEqual(response.data['title'], self.valid_data['title'])
+        self.assertEqual(response.data['task'], self.valid_data['task'])
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         # test with invalid data
         response = self.make_a_request(
