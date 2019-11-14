@@ -15,7 +15,7 @@
 - [Dates in Python](#date)<br/>
 - [Desktop app with Tkinter](#desktop)<br/>
 - [Django](#django)
-  - [URL](#url)
+  - [URLs](#urls)
   - [Create view](#view)
   - [Run migrations](#migrations)
   - [Create superuser](#superuser)
@@ -23,6 +23,7 @@
   - [Add dependency](#dependency)
   - [Run server](#server)
   - [Add models](#models)
+  - [Set up PostGres DB](#db)
   - [Create new migrations](#migrate)
   - [Terminal](#terminal)
   - [Serializer](#serializer)
@@ -34,7 +35,7 @@
   - [Sentry](#sentry)
   - [Custom settings](#setting)
   - [Swagger](#swagger)
-  - [](#)
+  - [Some useful functions](#functions)
 - [Links](#links)
 
 ## intro
@@ -949,7 +950,7 @@ $ deactivate
 
 [TOP](#content)
 
-#### url
+#### urls
 
 **Set up URL**
 
@@ -1127,6 +1128,95 @@ class PhotoAdmin(admin.ModelAdmin):
 
 [TOP](#content)
 
+#### db
+
+**_Set up postgres DB_**
+
+login to
+
+```console
+sudo -u postgres psql
+```
+
+Create DB
+
+```console
+postgres=# CREATE DATABASE testdb;
+```
+
+List all DB
+
+```console
+postgres=# \l
+```
+
+Create user
+
+```console
+postgres=# CREATE USER user WITH PASSWORD 'password';
+```
+
+Alter user role
+
+```console
+postgers=# ALTER ROLE user SET client_encoding TO 'utf8';
+postgers=# ALTER ROLE user SET default_transaction_isolation TO 'read committed';
+postgers=# ALTER ROLE user SET timezone TO 'UTC';
+
+postgres=# GRANT ALL PRIVILEGES ON DATABASE testdb TO user;
+```
+
+Connect to DB
+
+```console
+postgres=# \c testdb
+```
+
+List DB content
+
+```console
+postgres=# \d
+```
+
+List data from table
+
+```console
+postgres=# select * from <table-name>;
+```
+
+Exit from psql
+
+```console
+postgres=# \q;
+```
+
+***Make settings in settings.py file***
+
+```python
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': OPTIONS['DATABASE_NAME'],
+        'USER': '', # User created in upper step
+		'PASSWORD': '', # User created in upper step
+        'HOST': '',
+		'PORT': '',
+    }
+}
+```
+
+Install postgres engine
+
+```console
+pip install psycopg2-binary
+```
+
+If necessery
+
+```console
+pip install psycopg2
+```
+
 #### migrate
 
 **Make and run new migration**
@@ -1135,14 +1225,11 @@ Run command in terminal
 
 ```console
 # mysite$ is an folder
-mysite$ python3 manage.py makemigrations app
+mysite$ python3 MY_ENV="DEVELOP" manage.py makemigrations app
 # Output: app/migrations/0001_initial.py
 
-# This will create an table in sql
-mysite$ python3 manage.py sqlmigrate app 0001
-
 # Run migration
-mysite$ python3 manage.py migrate
+mysite$ MY_ENV="DEVELOP" python3 manage.py migrate
 ```
 
 [TOP](#content)
@@ -1164,6 +1251,22 @@ mysite$ python manage.py shell
 >>> photo.save()
 >>> photo.name
 >>> Output: 'Test'
+```
+
+**Calling function from terminal**
+
+```python
+# in utils.py create function
+def test_command(arg_1, arg_2):
+    print("This is {} , and this is {}".format(arg_1, arg_2))
+```
+
+```console
+# mysite$ is an folder
+mysite$ python manage.py shell
+
+>>> from app.utils import test_command
+>>> test_command('X', 'Y')
 ```
 
 [TOP](#content)
@@ -1428,6 +1531,38 @@ path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-s
 path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ```
 
+[TOP](#content)
+
+#### functions
+
+**_Some useful functions_**
+
+```python
+from django.db import connection
+
+def print_sql_queries():
+	indentation = 2
+	print("%s\033[33mThe number of SQL Queries is: %s \n" % (" " * indentation, len(connection.queries)))
+
+	if len(connection.queries) > 0:
+		width = 240
+		total_time = 0.0
+		for query in connection.queries:
+			nice_sql = query['sql'].replace('"', '').replace(',', ', ')
+			sql = "\033[33mTime: \033[31m [%s]\n \033[33m Query: \033[34m%s" % (query['time'], nice_sql)
+			total_time = total_time + float(query['time'])
+			while len(sql) > width - indentation:
+				print("%s%s" % (" " * indentation, sql[:width - indentation]))
+				sql = sql[width - indentation:]
+			print("%s%s\n" % (" " * indentation, sql))
+		replace_tuple = (" " * indentation, str(total_time))
+		print("%s\033[1;32m[TOTAL TIME: %s seconds]\033[0m" % replace_tuple)
+
+# To use:
+from app.utils import print_sql_queries
+print_sql_queries()
+```
+
 ## links
 
 [extend-tutorial](https://sunscrapers.com/blog/ultimate-tutorial-django-rest-framework-part-1/)
@@ -1437,3 +1572,7 @@ path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc
 [best-practice](https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api)
 
 [heroku-publish](https://rapidapi.com/blog/python-django-rest-api-tutorial/)
+
+[sql-queries-django](https://docs.djangoproject.com/en/2.2/topics/db/queries/)
+
+[TOP](#content)
