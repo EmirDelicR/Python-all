@@ -1162,6 +1162,7 @@ Alter user role
 postgers=# ALTER ROLE user SET client_encoding TO 'utf8';
 postgers=# ALTER ROLE user SET default_transaction_isolation TO 'read committed';
 postgers=# ALTER ROLE user SET timezone TO 'UTC';
+postgres=# ALTER USER user CREATEDB;
 
 postgres=# GRANT ALL PRIVILEGES ON DATABASE testdb TO user;
 ```
@@ -1198,9 +1199,12 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': OPTIONS['DATABASE_NAME'],
         'USER': '', # User created in upper step
-		'PASSWORD': '', # User created in upper step
+        'PASSWORD': '', # User created in upper step
         'HOST': '',
-		'PORT': '',
+        'PORT': '',
+        'TEST': {
+            'NAME': 'test_' + OPTIONS['DATABASE_NAME'],
+        },
     }
 }
 ```
@@ -1562,6 +1566,8 @@ def print_sql_queries():
 from app.utils import print_sql_queries
 print_sql_queries()
 ```
+
+[TOP](#content)
 
 ## links
 
