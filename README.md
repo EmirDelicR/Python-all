@@ -2,21 +2,40 @@
 
 ## content
 
-[Intro](#intro) <br/>
-[Basic Concepts](#basic) <br/>
-[Control Structures](#control) <br/>
-[Types in Python](#types) <br/>
-[OOP/Classes](#oop) <br/>
-[Modules in Python](#modules)<br/>
-[Exception Handling](#exception) <br/>
-[Regular Expressions](#regex)<br/>
-[JSON in Python](#json)<br/>
-[URLLIB module](#url)<br/>
-[Dates in Python](#date)<br/>
-[Desktop app with Tkinter](#desktop)<br/>
-
+- [Intro](#intro) <br/>
+- [Basic Concepts](#basic) <br/>
+- [Control Structures](#control) <br/>
+- [Types in Python](#types) <br/>
+- [OOP/Classes](#oop) <br/>
+- [Modules in Python](#modules)<br/>
+- [Exception Handling](#exception) <br/>
+- [Regular Expressions](#regex)<br/>
+- [JSON in Python](#json)<br/>
+- [URLLIB module](#url)<br/>
+- [Dates in Python](#date)<br/>
+- [Desktop app with Tkinter](#desktop)<br/>
 - [Django](#django)
   - [URL](#url)
+  - [Create view](#view)
+  - [Run migrations](#migrations)
+  - [Create superuser](#superuser)
+  - [Store and install requirements](#requirements)
+  - [Add dependency](#dependency)
+  - [Run server](#server)
+  - [Add models](#models)
+  - [Create new migrations](#migrate)
+  - [Terminal](#terminal)
+  - [Serializer](#serializer)
+  - [Api endpoint](#endpoint)
+  - [Testing app](#testing)
+  - [Create decorators](#decorators)
+  - [Create custom tasks](#tasks)
+  - [Update app settings](#settings)
+  - [Sentry](#sentry)
+  - [Custom settings](#setting)
+  - [Swagger](#swagger)
+  - [](#)
+- [Links](#links)
 
 ## intro
 
