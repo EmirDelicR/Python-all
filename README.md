@@ -14,7 +14,9 @@
 [URLLIB module](#url)<br/>
 [Dates in Python](#date)<br/>
 [Desktop app with Tkinter](#desktop)<br/>
-[Django](#django)<br/>
+
+- [Django](#django)
+  - [URL](#url)
 
 ## intro
 
@@ -926,6 +928,10 @@ $ deactivate
 
 ```
 
+[TOP](#content)
+
+#### url
+
 **Set up URL**
 
 in mysite/urls
@@ -972,6 +978,10 @@ urlpatterns += [
 pip install django-rest-auth
 ```
 
+[TOP](#content)
+
+#### view
+
 **Create an view**
 
 in app/views.py
@@ -981,17 +991,29 @@ def home(req):
     return HttpResponse("<h>This is home page</h>")
 ```
 
+[TOP](#content)
+
+#### migrations
+
 **Applying migrations**
 
 ```console
 python3 manage.py migrate
 ```
 
+[TOP](#content)
+
+#### superuser
+
 **Create Superuser**
 
 ```console
 python3 manage.py createsuperuser --email admin@example.com --username admin
 ```
+
+[TOP](#content)
+
+#### requirements
 
 **Store and install requirements**
 
@@ -1002,6 +1024,10 @@ $ pip freeze > requirements.txt
 ```console
 pip install -r requirements.txt
 ```
+
+[TOP](#content)
+
+#### dependency
 
 **Add dependency**
 
@@ -1026,6 +1052,10 @@ INSTALLED_APPS = [
 ]
 ```
 
+[TOP](#content)
+
+#### server
+
 **Run server**
 
 ```console
@@ -1036,6 +1066,10 @@ $ .../mysite$ python3 manage.py runserver
 go to : http://127.0.0.1:8000/api/
 
 or go to : http://127.0.0.1:8000/admin/
+
+[TOP](#content)
+
+#### models
 
 **Creating models**
 
@@ -1072,6 +1106,10 @@ class PhotoAdmin(admin.ModelAdmin):
 # admin.site.register(Photo)
 ```
 
+[TOP](#content)
+
+#### migrate
+
 **Make and run new migration**
 
 Run command in terminal
@@ -1087,6 +1125,10 @@ mysite$ python3 manage.py sqlmigrate app 0001
 # Run migration
 mysite$ python3 manage.py migrate
 ```
+
+[TOP](#content)
+
+#### terminal
 
 **Adding data from terminal**
 
@@ -1104,6 +1146,10 @@ mysite$ python manage.py shell
 >>> photo.name
 >>> Output: 'Test'
 ```
+
+[TOP](#content)
+
+#### serializer
 
 **Creating serializer for model**
 
@@ -1125,6 +1171,10 @@ class PhotoSerializer(serializers.ModelSerializer):
         model = Photo
         fields = ("name", "creator", "price")
 ```
+
+[TOP](#content)
+
+#### endpoint
 
 **Creating view for this endpoint**
 
@@ -1151,6 +1201,10 @@ urlpatterns += [
 ]
 ```
 
+[TOP](#content)
+
+#### testing
+
 **Testing App**
 
 Look server/api/tests.py file
@@ -1161,7 +1215,7 @@ python3 manage.py test
 
 [TOP](#content)
 
-### Bonus content
+#### decorators
 
 **Create decorators**
 
@@ -1187,6 +1241,10 @@ def validate_request_data(fn):
     return decorated
 ```
 
+[TOP](#content)
+
+#### tasks
+
 **Create custom tasks**
 
 Create management/commands/test.py file
@@ -1204,6 +1262,10 @@ To execute (! how you call file you need to call here)
 ```console
 python3 manage.py test
 ```
+
+[TOP](#content)
+
+#### settings
 
 **Customize settings in main app**
 
@@ -1239,6 +1301,10 @@ Can pass multi arguments
 DEBUG_MODE=xxx API_SECRET=yyy python manage.py runserver
 ```
 
+[TOP](#content)
+
+#### sentry
+
 **_Set Sentry on app_**
 
 [Sentry-docks](https://docs.sentry.io/platforms/python/)
@@ -1265,6 +1331,10 @@ sentry_sdk.init(
 with configure_scope() as scope:
     scope.set_tag("API_VERSION", "SOME_API_VERSION")
 ```
+
+[TOP](#content)
+
+#### setting
 
 **_Set rest of the settings_**
 
@@ -1295,6 +1365,10 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10
 }
 ```
+
+[TOP](#content)
+
+#### swagger
 
 **_Set Swagger REST API documentation_**
 
@@ -1335,7 +1409,7 @@ path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-s
 path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ```
 
-### Useful links
+## links
 
 [extend-tutorial](https://sunscrapers.com/blog/ultimate-tutorial-django-rest-framework-part-1/)
 
