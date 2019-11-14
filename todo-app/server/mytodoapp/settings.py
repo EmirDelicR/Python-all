@@ -23,14 +23,16 @@ MY_ENV = os.environ.get('MY_ENV')
 if MY_ENV == 'DEVELOP' or MY_ENV == 'LOCAL':
     OPTIONS = {
         'DEBUG': True,
-        'DATABASE_NAME': 'Some Db Name',
+        'DATABASE_NAME': 'dbtest',
+        'USERNAME': 'emir',
+        'PASSWORD': 'test123',
         'LOGPATH': '/var/log/log-file-name/',
     }
 elif MY_ENV == 'PRODUCTION':
     OPTIONS = {
         'DEBUG': False,
-        'DATABASE_NAME': 'rlb_essensmarken_production',
-        'LOGPATH': '/var/log/rlb_essensmarken_production/',
+        'DATABASE_NAME': 'dbtest',
+        'LOGPATH': '/var/log/log-file-name/',
     }
 else:
     raise ValueError('Environment variable "MY_ENV" must be defined to be either DEVELOP or PRODUCTION. Current value: ' + str(MY_ENV))
@@ -101,8 +103,15 @@ WSGI_APPLICATION = 'mytodoapp.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': OPTIONS['DATABASE_NAME'],
+        'USER': 'emir',
+		'PASSWORD': 'test123',
+        'HOST': 'localhost',
+		'PORT': '',
+        'TEST': {
+            'NAME': 'test_' + OPTIONS['DATABASE_NAME'],
+        },
     }
 }
 

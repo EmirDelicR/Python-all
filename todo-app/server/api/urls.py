@@ -36,7 +36,7 @@ urlpatterns += [
     # path('token/validation/', views.TokenValidationView.as_view()),
     # path('caterer/<str:caterer_id>', views.CatererDetails.as_view()),
     path('todo/', views.ListCreateTodoView.as_view(), name="todo-all-create"),
-    path('todo/<str:id>/', views.TodoDetailView.as_view(), name="todo-detail"),
+    path('todo/<uuid:id>', views.TodoDetailView.as_view(), name="todo-detail"),
     
     # Swagger documentation
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

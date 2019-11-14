@@ -45,29 +45,26 @@ class TodoDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class=TodoSerializer
 
     def get(self, request, *args, **kwargs):
-        print("Test get method")
-        print("+++`´+++ ", kwargs["id"])
-        return Response("Some data")
-       # try:
-       #     todo = self.queryset.get(id=kwargs["pk"])
-       #     return Response(TodoSerializer(todo).data)
-       # except Todo.DoesNotExist:
-       #     return make_error_response(kwargs["pk"])
+       try:
+           todo = self.queryset.get(id=kwargs["id"])
+           return Response(TodoSerializer(todo).data)
+       except Todo.DoesNotExist:
+           return make_error_response(kwargs["id"])
 
     @validate_request_data
     def put(self, request, *args, **kwargs):
         try:
-            todo = self.queryset.get(pk=kwargs["pk"])
+            todo = self.queryset.get(id=kwargs["id"])
             serializer = TodoSerializer()
             updated_todo = serializer.update(todo, request.data)
             return Response(TodoSerializer(updated_todo).data)
         except Todo.DoesNotExist:
-            return make_error_response(kwargs["pk"])
+            return make_error_response(kwargs["id"])
 
     def delete(self, request, *args, **kwargs):
         try:
-            todo = self.queryset.get(pk=kwargs["pk"])
+            todo = self.queryset.get(id=kwargs["id"])
             todo.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         except Todo.DoesNotExist:
-            return make_error_response(kwargs["pk"])   
+            return make_error_response(kwargs["id"])   

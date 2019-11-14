@@ -35,7 +35,12 @@ class BaseViewTest(APITestCase):
             Todo.objects.create(title=title, task=task, done=done)
     
     def __set_call(self, id):
-        return reverse("todo-detail", kwargs={"id": id}),
+        try:
+            url = reverse("todo-detail", args=(), kwargs={"id": id})
+            return url
+        except NoReverseMatch as err:
+            # do sth
+            print("NoReverseMatch: {0}".format(err))
 
     def make_a_request(self, method="post", **kwargs):
         """
@@ -84,7 +89,7 @@ class BaseViewTest(APITestCase):
             "title": "",
             "task": ""
         }
-        self.invalid_todo_id = '100'
+        self.invalid_todo_id = '4f95fe39-8715-467d-8039-2daaee1eae7c'
 
 
 class GetAllTodoTest(BaseViewTest):
@@ -117,16 +122,14 @@ class GetASingleTodoTest(BaseViewTest):
         response = self.fetch_a_todo(valid_id)
         # fetch the data from db
         expected = Todo.objects.get(id=valid_id)
-        print("+++++ ", expected)
         serialized = TodoSerializer(expected)
-        print("<<<<< ", response)
         self.assertEqual(response.data, serialized.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         # test with a todo that does not exist
         response = self.fetch_a_todo(self.invalid_todo_id)
         self.assertEqual(
             response.data["message"],
-            "Todo with id: 100 does not exist"
+            "Todo with id: 4f95fe39-8715-467d-8039-2daaee1eae7c does not exist"
         )
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
@@ -167,7 +170,7 @@ class UpdateTodoTest(BaseViewTest):
         # hit the API endpoint
         response = self.make_a_request(
             method="put",
-            id=2,
+            id=Todo.objects.all()[1].id,
             data=self.valid_data
         )
         self.assertEqual(response.data, self.valid_data)
@@ -175,7 +178,7 @@ class UpdateTodoTest(BaseViewTest):
         # test with invalid data
         response = self.make_a_request(
             method="put",
-            id=3,
+            id=Todo.objects.all()[2].id,
             data=self.invalid_data
         )
         self.assertEqual(
@@ -192,8 +195,8 @@ class DeleteTodoTest(BaseViewTest):
         This test ensures that when a todo of given id can be deleted
         """
         # hit the API endpoint
-        response = self.delete_a_todo(1)
+        response = self.delete_a_todo(Todo.objects.all()[3].id)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         # test with invalid data
-        response = self.delete_a_todo(100)
+        response = self.delete_a_todo(self.invalid_todo_id)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)        
