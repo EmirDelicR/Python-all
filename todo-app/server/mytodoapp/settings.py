@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from corsheaders.defaults import default_headers
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -27,12 +28,14 @@ if MY_ENV == 'DEVELOP' or MY_ENV == 'LOCAL':
         'USERNAME': 'emir',
         'PASSWORD': 'test123',
         'LOGPATH': '/var/log/log-file-name/',
+        'CORS_ALLOWED': True
     }
 elif MY_ENV == 'PRODUCTION':
     OPTIONS = {
         'DEBUG': False,
         'DATABASE_NAME': 'dbtest',
         'LOGPATH': '/var/log/log-file-name/',
+        'CORS_ALLOWED': False
     }
 else:
     raise ValueError('Environment variable "MY_ENV" must be defined to be either DEVELOP or PRODUCTION. Current value: ' + str(MY_ENV))
@@ -64,12 +67,14 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_auth',
     'api.apps.ApiConfig',
-    'drf_yasg'
+    'drf_yasg',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -134,6 +139,15 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CORS_ORIGIN_ALLOW_ALL = OPTIONS['CORS_ALLOWED']
+
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:8080',
+]
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'access-control-allow-origin',
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
