@@ -36,6 +36,7 @@
   - [Custom settings](#setting)
   - [Swagger](#swagger)
   - [Some useful functions](#functions)
+- [Client setup](#client)
 - [Links](#links)
 
 ## intro
@@ -1191,7 +1192,7 @@ Exit from psql
 postgres=# \q;
 ```
 
-***Make settings in settings.py file***
+**_Make settings in settings.py file_**
 
 ```python
 DATABASES = {
@@ -1568,6 +1569,58 @@ print_sql_queries()
 ```
 
 [TOP](#content)
+
+## client
+
+Create an client side app
+
+```console
+# mysite$ is an folder
+mysite$ vue create client
+
+mysite$ cd client
+
+mysite$/client/ npm run serve
+```
+
+Set cors on server
+
+```console
+pip install django-cors-headers
+```
+
+```python
+# in settings.py
+
+from corsheaders.defaults import default_headers
+
+INSTALLED_APPS = [
+    ...
+    'corsheaders'
+]
+
+# NOTE - Must be before 'django.middleware.common.CommonMiddleware',
+MIDDLEWARE = [
+    ...
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    ...
+]
+
+CORS_ORIGIN_ALLOW_ALL = OPTIONS['CORS_ALLOWED'] # True or False
+
+# If Up is True this will be ignored
+
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:8080',
+]
+
+# Need for Chrome
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'access-control-allow-origin',
+]
+```
 
 ## links
 
