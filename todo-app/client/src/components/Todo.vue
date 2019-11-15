@@ -2,6 +2,8 @@
   <div class="hello">
     <div>
       <h3>Get Todo</h3>
+      <div style="border:1px solid red" v-if="isError">{{ msg }}</div>
+      <div style="border:1px solid green" v-if="isSuccess">{{ msg }}</div>
       <button @click="fetchTodos()">GET</button>
       <pre>{{ getTodos }}</pre>
 
@@ -32,22 +34,40 @@ export default {
       todo: null,
       title: "",
       task: "",
-      id: ""
+      id: "",
+      msg: "",
+      isError: false,
+      isSuccess: false
     };
   },
   methods: {
+    updateResponseStatus(response) {
+      this.isError = response.error;
+      this.isSuccess = !this.isError;
+
+      if (this.isError || this.isSuccess) {
+        this.msg = response.message;
+      }
+    },
+
     async fetchTodos() {
       try {
-        const data = await getData(`${baseUrl}todo/`);
-        this.todos = [...data];
+        const response = await getData(`${baseUrl}todo/`, true);
+        this.todos = [...response];
       } catch (error) {
         console.error(error);
       }
     },
     async fetchTodo() {
       try {
-        const data = await getData(`${baseUrl}todo/${this.id}`);
-        this.todo = { ...data };
+        const response = await getData(`${baseUrl}todo/${this.id}`);
+        this.isError = response.error;
+
+        if (this.isError) {
+          this.msg = response.message;
+          return;
+        }
+        this.todo = { ...response.data };
         this.id = "";
       } catch (error) {
         console.error(error);
@@ -59,6 +79,13 @@ export default {
           title: this.title,
           task: this.task
         });
+
+        await this.updateResponseStatus(response);
+
+        if (this.isError) {
+          return;
+        }
+
         await this.fetchTodos();
       } catch (error) {
         console.error(error);
@@ -71,6 +98,13 @@ export default {
           {},
           "DELETE"
         );
+
+        await this.updateResponseStatus(response);
+
+        if (this.isError) {
+          return;
+        }
+
         this.id = "";
         this.todo = null;
         await this.fetchTodos();
@@ -88,6 +122,13 @@ export default {
           },
           "PUT"
         );
+
+        await this.updateResponseStatus(response);
+
+        if (this.isError) {
+          return;
+        }
+
         this.id = "";
         await this.fetchTodos();
       } catch (error) {

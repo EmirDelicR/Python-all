@@ -5,10 +5,18 @@ from django.db import connection
 def make_error_response(pk):
     return Response(
         data={
+			'error': True,
             "message": "Todo with id: {} does not exist".format(pk)
         },
         status=status.HTTP_404_NOT_FOUND
     )
+
+def make_data_for_response(data, err, msg):
+	return {
+		'data': data,
+		'error': err,
+		'message': msg
+	},
 
 def test_command(arg_1, arg_2):
     print("This is {} , and this is {}".format(arg_1, arg_2))

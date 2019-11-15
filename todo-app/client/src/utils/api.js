@@ -1,3 +1,4 @@
+import { serverResponse } from "./handlers.js";
 // Default options are marked with *
 let options = {
   mode: "cors", // no-cors, *cors, same-origin
@@ -16,18 +17,18 @@ const postData = async (url = "", data = {}, method = "POST") => {
   options.method = method; // POST, PUT, DELETE, etc.
   options.body = JSON.stringify(data);
   const response = await fetch(url, options);
-  // TODO Handle server side errors properly
-  if (response.status === 201) {
-    return await response.json(); // parses JSON response into native JavaScript objects
-  }
+  return await serverResponse(response);
 };
 
-const getData = async (url = "") => {
+const getData = async (url = "", all = false) => {
   // Default options are marked with *
   options.method = "GET";
   delete options.body;
   const response = await fetch(url, options);
-  return await response.json(); // parses JSON response into native JavaScript objects
+  if (all) {
+    return await response.json();
+  }
+  return await serverResponse(response);
 };
 
 export { postData, getData };
