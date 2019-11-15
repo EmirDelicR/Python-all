@@ -21,7 +21,8 @@ class ListCreateTodoView(generics.ListAPIView):
     """
     queryset = Todo.objects.all()
     serializer_class = TodoSerializer
-
+    
+    # TODO Handle server side errors properly
     @validate_request_data
     def post(self, request, *args, **kwargs):
         todo = Todo.objects.create(

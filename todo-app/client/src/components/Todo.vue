@@ -4,11 +4,19 @@
       <h3>Get Todo</h3>
       <button @click="fetchTodos()">GET</button>
       <pre>{{ getTodos }}</pre>
+
       <hr />Title:
       <input v-model="title" />
       Task:
       <input v-model="task" />
-      <button @click="postTodo()">Post Data</button>
+      <button @click="postTodo()">POST DATA</button>
+
+      <hr />
+      <input v-model="id" />
+      <button @click="fetchTodo()">GET BY ID</button>
+      <button @click="deleteTodo()">DELETE BY ID</button>
+      <button @click="updateTodo()">UPDATE BY ID</button>
+      <pre>{{ getTodo }}</pre>
     </div>
   </div>
 </template>
@@ -21,15 +29,26 @@ export default {
   data() {
     return {
       todos: null,
+      todo: null,
       title: "",
-      task: ""
+      task: "",
+      id: ""
     };
   },
   methods: {
     async fetchTodos() {
       try {
         const data = await getData(`${baseUrl}todo/`);
-        this.todos = data;
+        this.todos = [...data];
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async fetchTodo() {
+      try {
+        const data = await getData(`${baseUrl}todo/${this.id}`);
+        this.todo = { ...data };
+        this.id = "";
       } catch (error) {
         console.error(error);
       }
@@ -40,11 +59,37 @@ export default {
           title: this.title,
           task: this.task
         });
-        console.log("tHIS IS AAA: ", response);
-        if (response.status === 201) {
-          console.log("Am i here");
-          this.todos = await fetchTodos();
-        }
+        await this.fetchTodos();
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async deleteTodo() {
+      try {
+        const response = await postData(
+          `${baseUrl}todo/${this.id}`,
+          {},
+          "DELETE"
+        );
+        this.id = "";
+        this.todo = null;
+        await this.fetchTodos();
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async updateTodo() {
+      try {
+        const response = await postData(
+          `${baseUrl}todo/${this.id}`,
+          {
+            title: this.title,
+            task: this.task
+          },
+          "PUT"
+        );
+        this.id = "";
+        await this.fetchTodos();
       } catch (error) {
         console.error(error);
       }
@@ -53,6 +98,9 @@ export default {
   computed: {
     getTodos() {
       return this.todos;
+    },
+    getTodo() {
+      return this.todo;
     }
   }
 };

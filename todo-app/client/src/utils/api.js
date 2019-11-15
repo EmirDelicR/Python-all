@@ -1,5 +1,5 @@
 // Default options are marked with *
-const options = {
+let options = {
   mode: "cors", // no-cors, *cors, same-origin
   cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
   credentials: "same-origin", // include, *same-origin, omit
@@ -16,12 +16,16 @@ const postData = async (url = "", data = {}, method = "POST") => {
   options.method = method; // POST, PUT, DELETE, etc.
   options.body = JSON.stringify(data);
   const response = await fetch(url, options);
-
-  return await response.json(); // parses JSON response into native JavaScript objects
+  // TODO Handle server side errors properly
+  if (response.status === 201) {
+    return await response.json(); // parses JSON response into native JavaScript objects
+  }
 };
 
 const getData = async (url = "") => {
   // Default options are marked with *
+  options.method = "GET";
+  delete options.body;
   const response = await fetch(url, options);
   return await response.json(); // parses JSON response into native JavaScript objects
 };
