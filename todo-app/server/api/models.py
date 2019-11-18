@@ -9,7 +9,7 @@ import uuid
 class BaseModel(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     # id = models.AutoField(primary_key=True)
-    changed_at = models.DateTimeField(verbose_name='Last modified', db_index=True)
+    changed_at = models.DateTimeField(verbose_name='Last modified', db_index=True, blank=True, null=True)
 
     class Meta:
         abstract = True

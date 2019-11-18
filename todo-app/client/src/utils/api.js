@@ -20,12 +20,12 @@ const postData = async (url = "", data = {}, method = "POST") => {
   return await serverResponse(response);
 };
 
-const getData = async (url = "", all = false) => {
+const getData = async (url = "", isApiViewSet = false) => {
   // Default options are marked with *
   options.method = "GET";
   delete options.body;
   const response = await fetch(url, options);
-  if (all) {
+  if (isApiViewSet) {
     return await response.json();
   }
   return await serverResponse(response);

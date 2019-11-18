@@ -52,8 +52,15 @@ export default {
 
     async fetchTodos() {
       try {
-        const response = await getData(`${baseUrl}todo/`, true);
-        this.todos = [...response];
+        const response = await getData(`${baseUrl}todo/`);
+        this.isError = response.error;
+
+        if (this.isError) {
+          this.msg = response.message;
+          return;
+        }
+
+        this.todos = [...response.data];
       } catch (error) {
         console.error(error);
       }

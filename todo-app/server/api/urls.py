@@ -23,6 +23,10 @@ schema_view = get_schema_view(
     permission_classes=(permissions.AllowAny,),
 )
 
+# router.register('test-model-view-set/{pk}/set_todo/$', views.TestModelViewSet)
+router.register('test-model-view-set', views.TestModelViewSet)
+
+urlpatterns = router.urls
 
 urlpatterns += [
     path('', views.home, name='home'),
@@ -37,6 +41,11 @@ urlpatterns += [
     # path('caterer/<str:caterer_id>', views.CatererDetails.as_view()),
     path('todo/', views.ListCreateTodoView.as_view(), name="todo-all-create"),
     path('todo/<uuid:id>', views.TodoDetailView.as_view(), name="todo-detail"),
+
+    # Test different implementations
+    path('test-api-view/', views.TestApiView.as_view(), name="test-api-view"),
+
+    path('test-model-view-set/set_todo/', views.TestModelViewSet.as_view({'post': 'set_todo'}), name="test-model-view-set"),
     
     # Swagger documentation
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

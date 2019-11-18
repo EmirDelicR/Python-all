@@ -3,6 +3,8 @@ from .models import Todo
 
 
 class TodoSerializer(serializers.ModelSerializer):
+    title = serializers.CharField(required=False)
+
     class Meta:
         model = Todo
         fields = ("title", "task", "done", "id", "changed_at")

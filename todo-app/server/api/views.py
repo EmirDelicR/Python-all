@@ -1,13 +1,16 @@
-from django.shortcuts import render
-from rest_framework import generics
-from rest_framework.views import status
+from rest_framework import generics, viewsets
+from rest_framework.views import status, APIView
 from rest_framework.response import Response
+from rest_framework.decorators import api_view, action
 
+# Imports for data
 from .models import Todo
 from .serializers import TodoSerializer
 
+# My custom imports
 from .decorators import validate_request_data
 from .utils import make_error_response, make_data_for_response
+
 
 import json
 
@@ -24,12 +27,12 @@ class ListCreateTodoView(generics.ListAPIView):
     queryset = Todo.objects.all()
     serializer_class = TodoSerializer
     
-    # def get(self, request):
-    #     data = self.get_queryset()
-    #     data = make_data_for_response(data=json.dumps(data), err=False, msg="Success")
-    #     return Response(data=data, status=status.HTTP_200_OK)
+    # The way to overwrite function
+    def get(self, request):
+        data = self.get_queryset()
+        data = make_data_for_response(data=self.serializer_class(data, many=True).data, err=False, msg="Success")
+        return Response(data=data, status=status.HTTP_200_OK)
         
-    # TODO Handle server side errors properly
     @validate_request_data
     def post(self, request, *args, **kwargs):
         todo = Todo.objects.create(
@@ -80,3 +83,56 @@ class TodoDetailView(generics.RetrieveUpdateDestroyAPIView):
             return Response(data=data, status=status.HTTP_200_OK)
         except Todo.DoesNotExist:
             return make_error_response(kwargs["id"])   
+
+
+class TestApiView(APIView):
+    """
+    View to list all todo in the system.
+
+    * Requires token authentication.
+    * Only admin users are able to access this view.
+    """
+    # authentication_classes = [authentication.TokenAuthentication]
+    # permission_classes = [permissions.IsAdminUser]
+
+    def get(self, request, format=None):
+        """
+        Return a list of all Todo's.
+        """
+        print("*************** All utils function in APIView *******************")
+        print("Check allowed methods in function: ", self._allowed_methods())
+        print("Check view name: ", self.get_view_name())
+        print("Check throttles: ", self.check_throttles(request))
+        print("Check API version: ", self.determine_version(request))
+
+        all_todo = [todo.title for todo in Todo.objects.all()]
+        data = make_data_for_response(data=all_todo, err=False, msg="ApiView GET method successfully executed")
+        return Response(data=data, status=status.HTTP_200_OK)
+
+
+class TestModelViewSet(viewsets.ModelViewSet):
+    """
+    A viewset that provides the standard actions
+    """
+    queryset = Todo.objects.all()
+    serializer_class = TodoSerializer
+
+    # def list(self, request):
+    #     print("This is list: ")
+
+    @action(detail=False, methods=['post'])
+    def set_todo(self, request, pk=None):
+        print("A###################A")
+        print("Extra: ", self.get_extra_actions())
+        todo = self.get_object()
+        todo_q = self.get_queryset()
+        print('Todo: ', todo)
+        print('Todo_q: ', todo_q)
+        # serializer = PasswordSerializer(data=request.data)
+        # if serializer.is_valid():
+        #     user.set_password(serializer.data['password'])
+        #     user.save()
+        #     return Response({'status': 'password set'})
+        # else:
+        #     return Response(serializer.errors,
+        #                     status=status.HTTP_400_BAD_REQUEST)
