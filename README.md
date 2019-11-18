@@ -17,6 +17,7 @@
 - [Django](#django)
   - [URLs](#urls)
   - [Create view](#view)
+  - [View documentation](#view-docs)
   - [Run migrations](#migrations)
   - [Create superuser](#superuser)
   - [Store and install requirements](#requirements)
@@ -904,6 +905,7 @@ $ sudo apt-get install python3-tk
 ## django
 
 [Django docks](https://docs.djangoproject.com/en/2.1/intro/tutorial01/)
+[Django CDRF](http://www.cdrf.co)
 
 Navigate to folder like (Desktop)
 
@@ -1010,6 +1012,56 @@ in app/views.py
 ```python
 def home(req):
     return HttpResponse("<h>This is home page</h>")
+```
+
+#### view-docs
+
+**ApiView**
+
+[APIView](https://www.django-rest-framework.org/api-guide/views/)
+
+NOTE: Use this only if the view have GET function
+
+```python
+from rest_framework.views import APIView
+# in view.py check
+class TestApiView(APIView):
+```
+
+**Generic views**
+
+[GenericView](https://www.django-rest-framework.org/api-guide/generic-views/)
+
+```python
+from rest_framework import generics
+# in view.py check
+class ListCreateTodoView(generics.ListAPIView):
+class TodoDetailView(generics.RetrieveUpdateDestroyAPIView):
+```
+
+**View Set**
+
+[ViewSet](https://www.django-rest-framework.org/api-guide/viewsets/#viewset)
+
+```python
+from rest_framework import viewsets
+# in view.py check
+class TestModelViewSet(viewsets.ModelViewSet):
+
+# in urls.py
+router.register('test-model-view-set/', views.TestModelViewSet)
+urlpatterns = router.urls
+
+# To have access to default methods (list, create ...) add line above
+| NAME          | METHOD        | CLIENT CALL                |
+| ------------- |:-------------:| --------------------------:|
+| list          | GET all       | "test-model-view-set/"     |
+| create        | POST          | "test-model-view-set/"     |
+| retrieve      | GET by ID     | "test-model-view-set/<id>" |
+| update        | PUT           | "test-model-view-set/<id>" |
+| partial_update| PATCH         | "test-model-view-set/<id>" |
+| destroy       | DELETE        | "test-model-view-set/<id>" |
+
 ```
 
 [TOP](#content)
