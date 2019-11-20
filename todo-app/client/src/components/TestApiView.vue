@@ -19,6 +19,7 @@
         <option>DELETE</option>
       </select>
       <br />
+      <br />
       <button @click="callCustomAction()">CUSTOM ACTION</button>
     </div>
   </div>

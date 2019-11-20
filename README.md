@@ -1072,6 +1072,19 @@ def set_todo(self, request, pk=None):
 
 ```
 
+```python
+# If you have function
+def save(self, *args, **kwargs):
+# And you call function as
+save(1,2,3,4,a=20,b=30,c=40)
+# args = (1,2,3,4) # Tuple
+# kwargs = {'a':20,'b':30,'c':40} # Dictionary
+
+# *args - list of unnamed arguments
+# **kwargs - dictionary (named arguments)
+
+```
+
 [TOP](#content)
 
 #### migrations

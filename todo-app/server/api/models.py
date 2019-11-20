@@ -41,3 +41,44 @@ class Todo(BaseModel):
 
     def __str__(self):
         return "{} - {}".format(self.title, self.task)
+
+
+# class Task(BaseModel):
+
+
+# This is model for relation serilizer
+# class FirewallChain(BaseModel):
+#     spi_box = models.ForeignKey(
+#         'SPIBox',
+#         related_name='firewall_chains',
+#         on_delete=models.CASCADE
+#     )
+#     name = models.CharField(max_length=255)
+#     template = models.ForeignKey(
+#         'FirewallTemplate',
+#         related_name='firewall_chain',
+#         null=True,
+#         blank=True,
+#         on_delete=models.SET_NULL
+#     )
+#     machine = models.OneToOneField(
+#         Machine,
+#         related_name='firewall_chain',
+#         null=True,
+#         blank=True,
+#         on_delete=models.SET_NULL
+#     )
+#     rules = models.TextField(null=True, blank=True)
+
+#     def __str__(self):
+#         return f"{self.name}"
+
+# class FirewallVariable(BaseModel):
+#     name = models.CharField(max_length=255)
+#     value = models.CharField(max_length=512)
+#     firewall_template = models.ForeignKey(
+#         'FirewallTemplate', related_name='firewall_variables', null=True, blank=True, on_delete=models.CASCADE
+#     )
+#     firewall_chain = models.ForeignKey(
+#         'FirewallChain', related_name='firewall_variables', null=True, blank=True, on_delete=models.CASCADE
+#     )
