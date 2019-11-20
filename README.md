@@ -14,7 +14,7 @@
 - [URLLIB module](#url)<br/>
 - [Dates in Python](#date)<br/>
 - [Desktop app with Tkinter](#desktop)<br/>
-- [Django](#django)
+- [Django with REST](#django)
   - [URLs](#urls)
   - [Create view](#view)
   - [View documentation](#view-docs)
