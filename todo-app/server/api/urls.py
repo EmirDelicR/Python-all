@@ -45,8 +45,6 @@ urlpatterns += [
     # Test different implementations
     path('test-api-view/', views.TestApiView.as_view(), name="test-api-view"),
 
-    path('test-model-view-set/set_todo/', views.TestModelViewSet.as_view({'post': 'set_todo'}), name="test-model-view-set"),
-    
     # Swagger documentation
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),

@@ -116,23 +116,16 @@ class TestModelViewSet(viewsets.ModelViewSet):
     """
     queryset = Todo.objects.all()
     serializer_class = TodoSerializer
-
+    
+    # To overwrite list function
     # def list(self, request):
     #     print("This is list: ")
 
-    @action(detail=False, methods=['post'])
+    @action(detail=True, methods=['post'])
     def set_todo(self, request, pk=None):
-        print("A###################A")
-        print("Extra: ", self.get_extra_actions())
-        todo = self.get_object()
-        todo_q = self.get_queryset()
-        print('Todo: ', todo)
-        print('Todo_q: ', todo_q)
-        # serializer = PasswordSerializer(data=request.data)
-        # if serializer.is_valid():
-        #     user.set_password(serializer.data['password'])
-        #     user.save()
-        #     return Response({'status': 'password set'})
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+        #   Do some logic    
+            return Response(status=status.HTTP_200_OK)
         # else:
-        #     return Response(serializer.errors,
-        #                     status=status.HTTP_400_BAD_REQUEST)
+        #   return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -109,7 +109,7 @@ export default {
         };
         const todoItem = await this.executeGet(methodConfig);
         const response = await postData(
-          `${baseUrl}test-model-view-set/set_todo/?pk=${todoItem.id}`,
+          `${baseUrl}test-model-view-set/${todoItem.id}/set_todo/`,
           {
             title: "Test Post Title From Custom",
             task: "Test Post Task From Custom"

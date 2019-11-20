@@ -1062,6 +1062,14 @@ urlpatterns = router.urls
 | partial_update| PATCH         | "test-model-view-set/<id>" |
 | destroy       | DELETE        | "test-model-view-set/<id>" |
 
+# To create an custom action
+@action(detail=True, methods=['post'])
+def set_todo(self, request, pk=None):
+    return Response(status=status.HTTP_200_OK)
+
+# form client call this URL
+# `${baseUrl}test-model-view-set/${todoItem.id}/set_todo/`,
+
 ```
 
 [TOP](#content)
