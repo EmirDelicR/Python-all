@@ -31,7 +31,7 @@ urlpatterns = router.urls
 urlpatterns += [
     path('', views.home, name='home'),
     path('admin/login/', obtain_auth_token),
-    # path('login/', views.CustomLoginView.as_view()),
+    path('login/', views.CustomLoginView.as_view()),
     # path('registration/', views.RegistrationView.as_view()),
     path('logout/', csrf_exempt(LogoutView.as_view())),
     # path('password/set/', views.SetPasswordView.as_view()),

@@ -12,20 +12,28 @@ let options = {
   referrer: "no-referrer" // no-referrer, *client
 };
 
-const postData = async (url = "", data = {}, method = "POST") => {
+const postData = async (
+  url = "",
+  data = {},
+  method = "POST",
+  isModelViewSet = false
+) => {
   // Default options are marked with *
   options.method = method; // POST, PUT, DELETE, etc.
   options.body = JSON.stringify(data);
   const response = await fetch(url, options);
+  if (isModelViewSet) {
+    return await response.json();
+  }
   return await serverResponse(response);
 };
 
-const getData = async (url = "", isApiViewSet = false) => {
+const getData = async (url = "", isModelViewSet = false) => {
   // Default options are marked with *
   options.method = "GET";
   delete options.body;
   const response = await fetch(url, options);
-  if (isApiViewSet) {
+  if (isModelViewSet) {
     return await response.json();
   }
   return await serverResponse(response);

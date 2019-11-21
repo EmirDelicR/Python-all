@@ -82,11 +82,12 @@ export default {
     },
     async postTodo() {
       try {
+        const user = await getData(`${baseUrl}login/`);
         const response = await postData(`${baseUrl}todo/`, {
           title: this.title,
-          task: this.task
+          task: this.task,
+          userId: user.data[0].id
         });
-
         await this.updateResponseStatus(response);
 
         if (this.isError) {

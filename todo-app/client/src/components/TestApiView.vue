@@ -18,9 +18,6 @@
         <option>PATCH</option>
         <option>DELETE</option>
       </select>
-      <br />
-      <br />
-      <button @click="callCustomAction()">CUSTOM ACTION</button>
     </div>
   </div>
 </template>
@@ -62,21 +59,13 @@ export default {
             title: "Test UPDATE/PATCH Title",
             task: "Test UPDATE/PATCH Task"
           },
-          `${methodConfig.name}`
+          `${methodConfig.name}`,
+          true
         );
-        console.log("Response: ", response);
+        console.log("Execute Post/Patch: ", response);
         return;
       }
-
-      const response = await postData(
-        `${baseUrl}test-model-view-set/`,
-        {
-          title: "Test Post Title",
-          task: "Test Post Task"
-        },
-        `${methodConfig.name}`
-      );
-      console.log("POST METHOD response: ", response);
+      this.callCustomAction();
     },
     /** Normal get function for ApiView */
     async testGetMethod() {
@@ -109,14 +98,17 @@ export default {
           byId: true
         };
         const todoItem = await this.executeGet(methodConfig);
+        const user = await getData(`${baseUrl}login/`);
         const response = await postData(
           `${baseUrl}test-model-view-set/${todoItem.id}/set_todo/`,
           {
             title: "Test Post Title From Custom",
-            task: "Test Post Task From Custom"
+            task: "Test Post Task From Custom",
+            userId: user.data[0].id
           }
         );
-        console.log(response);
+
+        console.log("POST METHOD callCustomAction response: ", response);
         return response;
       } catch (error) {
         console.error(error);

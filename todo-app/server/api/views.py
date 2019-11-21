@@ -4,8 +4,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, action
 
 # Imports for data
-from .models import Todo
-from .serializers import TodoSerializer
+from .models import Todo, User
+from .serializers import TodoSerializer, CustomLoginSerializer
 
 # My custom imports
 from .decorators import validate_request_data
@@ -17,6 +17,26 @@ import json
 # Create your views here.
 def home(req):
     return HttpResponse("<h>This is home page</h>")
+
+
+class CustomLoginView(generics.GenericAPIView):
+    queryset = User.objects.all()
+    serializer_class = CustomLoginSerializer    
+    
+    def get(self, request):
+        data = self.get_queryset()
+        data = make_data_for_response(data=self.serializer_class(data, many=True).data, err=False, msg="Success")
+        return Response(data=data, status=status.HTTP_200_OK)
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        serializer = serializer_class()
+        user = serializer.create(request.data)
+        data = make_data_for_response(data=self.serializer_class(user).data, err=False, msg="User successfully created") 
+        
+        return Response(data=data, status=status.HTTP_201_CREATED)
 
 
 class ListCreateTodoView(generics.ListAPIView):
@@ -35,9 +55,12 @@ class ListCreateTodoView(generics.ListAPIView):
         
     @validate_request_data
     def post(self, request, *args, **kwargs):
+        user = User.objects.get(id=request.data["userId"])
+
         todo = Todo.objects.create(
             title=request.data["title"],
-            task=request.data["task"]
+            task=request.data["task"],
+            user=user,
         )
 
         data = make_data_for_response(data=self.serializer_class(todo).data, err=False, msg="Todo successfully created")    
@@ -125,7 +148,17 @@ class TestModelViewSet(viewsets.ModelViewSet):
     def set_todo(self, request, pk=None):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
-        #   Do some logic    
-            return Response(status=status.HTTP_200_OK)
-        # else:
-        #   return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            user = User.objects.get(id=request.data["userId"])
+            todo = Todo.objects.create(
+                title=request.data["title"],
+                task=request.data["task"],
+                user=user,
+            )
+
+            data = make_data_for_response(data=self.serializer_class(todo).data, err=False, msg="Todo successfully created")    
+            return Response(
+                data=data,
+                status=status.HTTP_201_CREATED
+            )
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

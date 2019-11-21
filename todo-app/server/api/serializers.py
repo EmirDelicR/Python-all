@@ -1,5 +1,14 @@
 from rest_framework import serializers
-from .models import Todo
+from .models import Todo, User
+
+class CustomLoginSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ("username", "status", "id")
+
+    def create(self, validated_data):
+       return User(**validated_data)    
 
 
 class TodoSerializer(serializers.ModelSerializer):
