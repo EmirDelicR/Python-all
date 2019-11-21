@@ -1,12 +1,23 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Todo
+from api import models
 
 
 class TodoAdmin(admin.ModelAdmin):
-    list_display = ('uid', 'name', 'street', 'city', 'latitude', 'longitude')
-    search_fields = ('id', 'uid', 'name')
+    list_display = ('id', 'created_at', 'changed_at', 'title', 'task', 'done')
+    search_fields = ('id', 'title')
 
 
-admin.site.register(Todo)
+class AddressAdmin(admin.ModelAdmin):
+    list_display = ('id', 'created_at', 'changed_at', 'country', 'city', 'street', 'postal_code')
+    search_fields = ('id', 'street', 'city'), 
+
+
+class UserAdmin(admin.ModelAdmin):
+    list_display = ('id', 'status', 'address', 'username', 'first_name', 'last_name')
+    search_fields = ('id', 'username', 'first_name', 'last_name'), 
+
+admin.site.register(models.Todo, TodoAdmin)
+admin.site.register(models.Address, AddressAdmin)
+admin.site.register(models.User, UserAdmin)

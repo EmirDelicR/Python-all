@@ -39,8 +39,9 @@ class TodoSerializer(serializers.ModelSerializer):
 
 #         with transaction.atomic():
 #             last_config.create_new_config_from_current()
-#             firewall_chain = FirewallChain.objects.create(**data)
 #             variables = data.pop('firewall_variables')
+#             firewall_chain = FirewallChain.objects.create(**data)
+#             
 
 #             FirewallVariable.objects.bulk_create([
 #                 FirewallVariable(
