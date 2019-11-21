@@ -173,3 +173,5 @@ MEDIA_ROOT = os.path.join('/data/media', 'file_name')
 MEDIA_URL = '/media/'
 
 MEDIA_PUBLIC_ROOT = os.path.join(MEDIA_ROOT, 'public')
+
+AUTH_USER_MODEL = 'api.User'
