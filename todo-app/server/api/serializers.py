@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Todo, User
+from .models import Todo, User, Address
 
 class CustomLoginSerializer(serializers.ModelSerializer):
 
@@ -26,7 +26,33 @@ class TodoSerializer(serializers.ModelSerializer):
         return instance
 
 
+class AddressSerializer(serializers.ModelSerializer):
+    country = models.CharField(max_length=128)
+    city = models.CharField(max_length=128)
+    street = models.TextField(blank=True, null=True)
+    postal_code = models.CharField(max_length=32, blank=True, null=True)
 
+    class Meta:
+        model = FirewallChain
+        fields = ('country', 'city', 'street', 'postal_code')
+
+
+     def create(self, validated_data):
+        address = Address(**validated_data)
+        user = get_object_or_404(User, id=validated_data.data["userId"])
+        user.address = address
+        return address
+
+    def update(self, instance, validated_data):
+        instance.country = validated_data.get('country', instance.email)
+        instance.city = validated_data.get('city', instance.content)
+        instance.street = validated_data.get('street', instance.created)
+        instance.postal_code = validated_data.get('postalCode', instance.created)
+        return instance    
+
+    # can also overwrite save function
+
+    
 # Example with related models in serilizer
 # class FirewallChainSerializer(serializers.ModelSerializer):
 #     id = serializers.UUIDField(required=False, allow_null=True)

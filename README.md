@@ -27,7 +27,7 @@
   - [Set up PostGres DB](#db)
   - [Create new migrations](#migrate)
   - [Terminal](#terminal)
-  - [Serializer](#serializer)
+  - [Serializers](#serializer)
   - [Api endpoint](#endpoint)
   - [Testing app](#testing)
   - [Create decorators](#decorators)

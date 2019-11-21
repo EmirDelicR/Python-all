@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view, action
 
 # Imports for data
 from .models import Todo, User
-from .serializers import TodoSerializer, CustomLoginSerializer
+from .serializers import TodoSerializer, CustomLoginSerializer, AddressSerializer
 
 # My custom imports
 from .decorators import validate_request_data
@@ -56,7 +56,7 @@ class ListCreateTodoView(generics.ListAPIView):
     @validate_request_data
     def post(self, request, *args, **kwargs):
         user = User.objects.get(id=request.data["userId"])
-
+        # user = get_object_or_404(User, id=request.data["userId"])
         todo = Todo.objects.create(
             title=request.data["title"],
             task=request.data["task"],
@@ -149,6 +149,7 @@ class TestModelViewSet(viewsets.ModelViewSet):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             user = User.objects.get(id=request.data["userId"])
+            # user = get_object_or_404(User, id=request.data["userId"])
             todo = Todo.objects.create(
                 title=request.data["title"],
                 task=request.data["task"],
@@ -162,3 +163,13 @@ class TestModelViewSet(viewsets.ModelViewSet):
             )
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class TestSerializerView(APIView):
+    queryset = Address.objects.all()
+    serializer_class = AddressSerializer
+
+    # get
+    # serializer = AddressSerializer(data)
+    # print(serializer.data)
+    # serializer.is_valid(raise_exception=True)

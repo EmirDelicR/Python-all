@@ -31,11 +31,11 @@ urlpatterns = router.urls
 urlpatterns += [
     path('', views.home, name='home'),
     path('admin/login/', obtain_auth_token),
-    path('login/', views.CustomLoginView.as_view()),
+    path('login/', views.CustomLoginView.as_view(), name="login"),
     # path('registration/', views.RegistrationView.as_view()),
-    path('logout/', csrf_exempt(LogoutView.as_view())),
+    path('logout/', csrf_exempt(LogoutView.as_view()), name="logout"),
     # path('password/set/', views.SetPasswordView.as_view()),
-    path('password/change/', PasswordChangeView.as_view()),
+    # path('password/change/', PasswordChangeView.as_view()),
     # path('password/reset/', views.ResetPasswordView.as_view()),
     # path('token/validation/', views.TokenValidationView.as_view()),
     # path('caterer/<str:caterer_id>', views.CatererDetails.as_view()),
@@ -44,6 +44,9 @@ urlpatterns += [
 
     # Test different implementations
     path('test-api-view/', views.TestApiView.as_view(), name="test-api-view"),
+
+    # Test Serializers 
+    path('test-serializer/', views.TestSerializerView.as_view(), name="test-serializer"),
 
     # Swagger documentation
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

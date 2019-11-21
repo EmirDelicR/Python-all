@@ -2,7 +2,7 @@
   <div class="hello">
     <div>
       <h3>Test Serilizer</h3>
-      <button @click="testGetMethod()">GET</button>
+      <button @click="testSerilizer()">TEST</button>
     </div>
   </div>
 </template>
@@ -11,14 +11,14 @@
 import { postData, getData } from "@/utils/api";
 import { baseUrl } from "@/utils/constants";
 export default {
-  name: "Todo",
+  name: "Serilizer",
   data() {
     return {
       selected: ""
     };
   },
   methods: {
-    testGetMethod() {
+    testSerilizer() {
       console.log("Test");
     }
   },
