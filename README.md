@@ -1200,6 +1200,58 @@ class PhotoAdmin(admin.ModelAdmin):
 # admin.site.register(Photo)
 ```
 
+```python
+# Every model can have function that returns string representation of any object
+def __str__(self):
+    # f"" is short way to format string
+    return f"{self.city}"
+```
+
+**Relations in models**
+
+```python
+address = models.OneToOneField(
+    Address, verbose_name="user address" on_delete=models.SET_NULL, null=True, blank=True, related_name='user'
+)
+# verbose_name="user address" --> name in Django Admin
+# on_delete=models.CASCADE || SET_NULL
+# related_name='user' --> How to access from other model address.user
+
+# ForeignKey (ManyToOne) goes on child like `One User Have Multi Todo`
+# So put this on Todo model class
+user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='todo')
+
+# ManyToMany
+from django.db import models
+
+class Topping(models.Model):
+    # ...
+    pass
+
+class Pizza(models.Model):
+    # ...
+    toppings = models.ManyToManyField(Topping)
+
+# In the above example, toppings is in Pizza (rather than Topping having a pizzas ManyToManyField )
+# because it’s more natural to think about a pizza having toppings than a topping being on multiple pizzas.
+# The way it’s set up above, the Pizza form would let users select the toppings.
+```
+
+**Creating Abstract user**
+
+```python
+# in mytodoapp/settings.py
+AUTH_USER_MODEL = 'api.User'
+
+# in api/models
+from django.contrib.auth.models import AbstractUser
+
+class User(AbstractUser):
+
+    def __str__(self):
+        return f"{self.username}"
+```
+
 [TOP](#content)
 
 #### db
@@ -1215,7 +1267,7 @@ sudo -u postgres psql
 Create DB
 
 ```console
-postgres=# CREATE DATABASE testdb;
+postgres=# CREATE DATABASE dbtest;
 ```
 
 List all DB
@@ -1238,7 +1290,7 @@ postgers=# ALTER ROLE user SET default_transaction_isolation TO 'read committed'
 postgers=# ALTER ROLE user SET timezone TO 'UTC';
 postgres=# ALTER USER user CREATEDB;
 
-postgres=# GRANT ALL PRIVILEGES ON DATABASE testdb TO user;
+postgres=# GRANT ALL PRIVILEGES ON DATABASE dbtest TO user;
 ```
 
 Connect to DB
