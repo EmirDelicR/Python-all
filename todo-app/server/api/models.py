@@ -1,7 +1,9 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import AbstractUser
 
 import uuid
+from . import choices
 
 # Create your models here.
 
@@ -9,26 +11,51 @@ import uuid
 class BaseModel(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     # id = models.AutoField(primary_key=True)
-    changed_at = models.DateTimeField(verbose_name='Last modified', db_index=True, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    changed_at = models.DateTimeField(verbose_name='Last modified', db_index=True, auto_now=True)
 
     class Meta:
+        ordering = ["created_at"]
         abstract = True
 
-    def save_without_updating_timestamp(self, *args, **kwargs):
-        return super(BaseModel, self).save(*args, **kwargs)
+    # def save_without_updating_timestamp(self, *args, **kwargs):
+    #     return super(BaseModel, self).save(*args, **kwargs)
 
-    def save(self, *args, **kwargs):
-        """ On save, update timestamps """
-        self.changed_at = timezone.now()
+    # def save(self, *args, **kwargs):
+    #     """ On save, update timestamps """
+    #     self.changed_at = timezone.now()
 
-        if kwargs.get("update_fields"):
-            arg = tuple(kwargs["update_fields"])
+    #     if kwargs.get("update_fields"):
+    #         arg = tuple(kwargs["update_fields"])
 
-            if "changed_at" not in arg:
-                arg = arg + ("changed_at",)
-            kwargs["update_fields"] = arg
+    #         if "changed_at" not in arg:
+    #             arg = arg + ("changed_at",)
+    #         kwargs["update_fields"] = arg
 
-        return super(BaseModel, self).save(*args, **kwargs)
+    #     return super(BaseModel, self).save(*args, **kwargs)
+
+
+class Address(BaseModel):
+    country = models.CharField(max_length=128)
+    city = models.CharField(max_length=128)
+    street = models.TextField(blank=True, null=True)
+    postal_code = models.CharField(max_length=32, blank=True, null=True)
+
+    def __str__(self):
+        # f"" is short way to format string
+        return f"{self.city}"
+
+
+class User(AbstractUser):
+    status = models.PositiveSmallIntegerField(choices=choices.USER_STATUS, default=1)
+    
+    address = models.OneToOneField(
+        'Address', verbose_name="user address", on_delete=models.SET_NULL, null=True, blank=True, related_name='user'
+    )
+
+    def __str__(self):
+        # f"" is short way to format string
+        return f"{self.username}"
 
 
 class Todo(BaseModel):
@@ -38,12 +65,12 @@ class Todo(BaseModel):
     task = models.CharField(max_length=255, null=False)
     # task status
     done = models.BooleanField(default=False)
+    
+    user = models.ForeignKey('User', on_delete=models.CASCADE, related_name='todo')
 
     def __str__(self):
-        return "{} - {}".format(self.title, self.task)
-
-
-# class Task(BaseModel):
+        # f"" is short way to format string
+        return f"{self.title} - {self.task}"
 
 
 # This is model for relation serilizer
