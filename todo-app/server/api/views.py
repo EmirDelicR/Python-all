@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, action
 
 # Imports for data
-from .models import Todo, User
+from .models import Todo, User, Address
 from .serializers import TodoSerializer, CustomLoginSerializer, AddressSerializer
 
 # My custom imports

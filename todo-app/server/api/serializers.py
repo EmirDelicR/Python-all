@@ -27,17 +27,17 @@ class TodoSerializer(serializers.ModelSerializer):
 
 
 class AddressSerializer(serializers.ModelSerializer):
-    country = models.CharField(max_length=128)
-    city = models.CharField(max_length=128)
-    street = models.TextField(blank=True, null=True)
-    postal_code = models.CharField(max_length=32, blank=True, null=True)
+    country = serializers.CharField(max_length=128, trim_whitespace=True)
+    city = serializers.CharField(max_length=128, trim_whitespace=True)
+    street = serializers.CharField(max_length=256, allow_blank=False, trim_whitespace=True)
+    postal_code = serializers.CharField(max_length=32, allow_blank=False, trim_whitespace=True)
 
     class Meta:
-        model = FirewallChain
+        model = Address
         fields = ('country', 'city', 'street', 'postal_code')
 
 
-     def create(self, validated_data):
+    def create(self, validated_data):
         address = Address(**validated_data)
         user = get_object_or_404(User, id=validated_data.data["userId"])
         user.address = address
