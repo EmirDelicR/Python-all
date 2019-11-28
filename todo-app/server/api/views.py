@@ -9,7 +9,7 @@ from .serializers import TodoSerializer, CustomLoginSerializer, AddressSerialize
 
 # My custom imports
 from .decorators import validate_request_data
-from .utils import make_error_response, make_data_for_response
+from .utils import make_error_response, make_data_for_response, Formatter
 
 
 import json
@@ -165,11 +165,27 @@ class TestModelViewSet(viewsets.ModelViewSet):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class TestSerializerView(APIView):
+class TestSerializerView(viewsets.ModelViewSet):
     queryset = Address.objects.all()
     serializer_class = AddressSerializer
 
-    # get
+    # ways to access data
+    # request.GET.get('test') if data is passed from url (/?test=123)
+    # request.data
+    def get(self, request, format=None):
+        pretty = Formatter()
+        data = pretty.format_dict(request.__dict__)
+        pretty.preatty_print(data)
+        return Response(data=[{'test':'test'}], status=status.HTTP_200_OK)
+
     # serializer = AddressSerializer(data)
     # print(serializer.data)
     # serializer.is_valid(raise_exception=True)
+    # def post(self, request):
+    #     serializer = AddressSerializer(data=request.data)
+    #     serializer.is_valid(raise_exception=True)
+    #     pretty = Formatter()
+    #     data = pretty.format_dict(serializer.data)
+    #     pretty.preatty_print(data)
+   
+

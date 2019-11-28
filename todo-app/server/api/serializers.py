@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from django.shortcuts import get_object_or_404
+
 from .models import Todo, User, Address
 
 class CustomLoginSerializer(serializers.ModelSerializer):
@@ -38,7 +40,14 @@ class AddressSerializer(serializers.ModelSerializer):
 
 
     def create(self, validated_data):
-        address = Address(**validated_data)
+        print('>>>>>>>>>>>>>>>>>>>>>>>>')
+        # return Address.objects.create(**validated_data)
+        print('>>>>>>>>>>>>>>>>>>>>>>>>')
+        print('**validated_data', validated_data)
+        print('>>>>>>>>>>>>>>>>>>>>>>>>')
+        print('validated_data', validated_data)
+        
+
         user = get_object_or_404(User, id=validated_data.data["userId"])
         user.address = address
         return address

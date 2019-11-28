@@ -2,7 +2,8 @@
   <div class="hello">
     <div>
       <h3>Test Serilizer</h3>
-      <button @click="testSerilizer()">TEST</button>
+      <button @click="testGetSerilizer()">GET</button>
+      <button @click="testPostSerilizer()">POST</button>
     </div>
   </div>
 </template>
@@ -18,8 +19,28 @@ export default {
     };
   },
   methods: {
-    testSerilizer() {
-      console.log("Test");
+    async testGetSerilizer() {
+      try {
+        const response = await getData(`${baseUrl}test-serializer/`);
+        console.log(response);
+        return response;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async testPostSerilizer() {
+      try {
+        const response = await postData(`${baseUrl}test-serializer/`, {
+          country: "Austria",
+          city: "Linz",
+          street: "Some Street",
+          postal_code: "4040"
+        });
+        console.log(response);
+        return response;
+      } catch (error) {
+        console.error(error);
+      }
     }
   },
   computed: {}

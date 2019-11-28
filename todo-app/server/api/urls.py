@@ -25,6 +25,8 @@ schema_view = get_schema_view(
 
 # router.register('test-model-view-set/{pk}/set_todo/$', views.TestModelViewSet)
 router.register('test-model-view-set', views.TestModelViewSet)
+# Test Serializers 
+router.register('test-serializer', views.TestSerializerView)
 
 urlpatterns = router.urls
 
@@ -44,9 +46,6 @@ urlpatterns += [
 
     # Test different implementations
     path('test-api-view/', views.TestApiView.as_view(), name="test-api-view"),
-
-    # Test Serializers 
-    path('test-serializer/', views.TestSerializerView.as_view(), name="test-serializer"),
 
     # Swagger documentation
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
