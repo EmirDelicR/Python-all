@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view, action
 
 # Imports for data
 from .models import Todo, User, Address
-from .serializers import TodoSerializer, CustomLoginSerializer, AddressSerializer
+from .serializers import TodoSerializer, CustomLoginSerializer, AddressSerializer, UserSerializer
 
 # My custom imports
 from .decorators import validate_request_data
@@ -187,5 +187,9 @@ class TestSerializerView(viewsets.ModelViewSet):
     #     pretty = Formatter()
     #     data = pretty.format_dict(serializer.data)
     #     pretty.preatty_print(data)
-   
+
+
+class TestUserSerializerView(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 

@@ -4,6 +4,8 @@
       <h3>Test Serilizer</h3>
       <button @click="testGetSerilizer()">GET</button>
       <button @click="testPostSerilizer()">POST</button>
+
+      <button @click="testUserGetSerilizer()">GET USER</button>
     </div>
   </div>
 </template>
@@ -36,6 +38,16 @@ export default {
           street: "Some Street",
           postal_code: "4040"
         });
+        console.log(response);
+        return response;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    async testUserGetSerilizer() {
+      try {
+        const response = await getData(`${baseUrl}user-serializer/`);
         console.log(response);
         return response;
       } catch (error) {

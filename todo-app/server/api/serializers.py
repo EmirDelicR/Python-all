@@ -29,6 +29,7 @@ class TodoSerializer(serializers.ModelSerializer):
 
 
 class AddressSerializer(serializers.ModelSerializer):
+    # With ModelSerializer this is not necessary
     country = serializers.CharField(max_length=128, trim_whitespace=True)
     city = serializers.CharField(max_length=128, trim_whitespace=True)
     street = serializers.CharField(max_length=256, allow_blank=False, trim_whitespace=True)
@@ -40,17 +41,10 @@ class AddressSerializer(serializers.ModelSerializer):
 
 
     def create(self, validated_data):
-        print('>>>>>>>>>>>>>>>>>>>>>>>>')
-        # return Address.objects.create(**validated_data)
-        print('>>>>>>>>>>>>>>>>>>>>>>>>')
-        print('**validated_data', validated_data)
-        print('>>>>>>>>>>>>>>>>>>>>>>>>')
-        print('validated_data', validated_data)
-        
-
-        user = get_object_or_404(User, id=validated_data.data["userId"])
-        user.address = address
-        return address
+        return Address.objects.create(**validated_data)
+        # user = get_object_or_404(User, id=validated_data.data["userId"])
+        # user.address = address
+        # return address
 
     def update(self, instance, validated_data):
         instance.country = validated_data.get('country', instance.email)
@@ -61,8 +55,19 @@ class AddressSerializer(serializers.ModelSerializer):
 
     # can also overwrite save function
 
-    
-# Example with related models in serilizer
+
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = User
+        fields = (
+            'first_name',
+            'last_name',
+            'email',
+            'url'
+        )
+
+# Example with related models in serializer
 # class FirewallChainSerializer(serializers.ModelSerializer):
 #     id = serializers.UUIDField(required=False, allow_null=True)
 #     spi_box_id = serializers.UUIDField()

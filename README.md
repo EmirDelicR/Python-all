@@ -1424,6 +1424,24 @@ class PhotoSerializer(serializers.ModelSerializer):
         fields = ("name", "creator", "price")
 ```
 
+Some feature with serilizer
+
+```python
+# in view add
+class TestSerializerView(viewsets.ModelViewSet):
+    # Adding ModelViewSet you get automaticly update, create, partial_update ect.
+    # Now you can overwrite this function in serilizer
+
+# Register route in urls.py
+router.register('test-serializer', views.TestSerializerView)
+
+# Create serilizer
+
+class AddressSerializer(serializers.ModelSerializer):
+    def create(self, validated_data):
+        return Address.objects.create(**validated_data)
+```
+
 [TOP](#content)
 
 #### endpoint

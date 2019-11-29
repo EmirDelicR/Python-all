@@ -27,6 +27,8 @@ schema_view = get_schema_view(
 router.register('test-model-view-set', views.TestModelViewSet)
 # Test Serializers 
 router.register('test-serializer', views.TestSerializerView)
+# Test UserSerializer
+router.register('user-serializer', views.TestUserSerializerView)
 
 urlpatterns = router.urls
 
