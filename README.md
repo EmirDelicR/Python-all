@@ -13,6 +13,7 @@
 - [JSON in Python](#json)<br/>
 - [URLLIB module](#url)<br/>
 - [Dates in Python](#date)<br/>
+- [Working with files](#files)<br/>
 - [Desktop app with Tkinter](#desktop)<br/>
 - [Django with REST](#django)
   - [URLs](#urls)
@@ -882,6 +883,85 @@ print(x.year)
 print(x.strftime("%A"))
 ```
 
+[TOP](#content)
+
+## files
+
+```python 
+    create_path = os.path.join('usr', 'bin', 'spam') # usr/bin/spam
+
+    print(os.path.abspath(path))
+
+    print(os.path.basename(path)) # spam
+    print(os.path.dirname(path)) # usr/bin
+    print(os.path.split(path)) # returns tuple ('usr/bin', 'spam')
+    print(path.split(os.path.sep)) # ['usr', 'bin', 'spam'] # os.path.sep = /
+
+
+    cwd = os.getcwd() # current working directory
+    os.chdir('C:/Data/Test')
+    cwd = os.getcwd() # C:/Data/Test
+    os.makedirs('C:/delicious/walnut/waffles')
+
+    # set permissions on file    
+    import stat
+    os.chmod(
+        'waffles',
+        stat.S_IRUSR |
+        stat.S_IWUSR |
+        stat.S_IRGRP |
+        stat.S_IWGRP |
+        stat.S_IROTH
+    )
+
+    os.getsize('C:/delicious/walnut/waffles.txt') 
+    os.listdir(cwd) # return array of directories
+
+    os.path.exists(path) # return True or False # isdir, isfile
+
+    # Read file
+    with open(main, 'a+') as some_file: # r- read, w- write, a- append
+        content_of_file = some_file.read()
+        some_file.write('Text')
+        print(content)
+        
+        # ctx = some_file.readlines() # return array of lines with \n
+        # print(ctx)
+        # for line in some_file: # can use loop also
+        #  print(line)
+
+
+    # r - Opens a file for reading only. The file pointer is placed at 
+    #     the beginning of the file. This is the default mode.
+    # rb - Opens a file for reading only in binary format. The file 
+    #      pointer is placed at the beginning of the file. This is the default mode.
+    # r+ - Opens a file for both reading and writing. The file pointer will be at 
+    #      the beginning of the file.
+    # rb+ - Opens a file for both reading and writing in binary format. The file pointer 
+    #       will be at the beginning of the file.
+    # w - Opens a file for writing only. Overwrites the file if the file exists. If the 
+    #     file does not exist, creates a new file for writing.
+    # wb - Opens a file for writing only in binary format. Overwrites the file if the file
+    #      exists. If the file does not exist, creates a new file for writing.
+    # w+ - Opens a file for both writing and reading. Overwrites the existing file if the 
+    #      file exists. If the file does not exist, creates a new file for reading and writing.
+    # wb+ - Opens a file for both writing and reading in binary format. Overwrites the existing
+    #       file if the file exists. If the file does not exist, creates a new file for reading and writing.
+    # a - Opens a file for appending. The file pointer is at the end of the file if the file exists.
+    #     That is, the file is in the append mode. If the file does not exist, it creates a new file for writing.
+    # ab - Opens a file for appending in binary format. The file pointer is at the end of the file 
+    #      if the file exists. That is, the file is in the append mode. If the file does not exist,
+    #      it creates a new file for writing.
+    # a+ - Opens a file for both appending and reading. The file pointer is at the end of the file 
+    #      if the file exists. The file opens in the append mode. If the file does not exist,
+    #      it creates a new file for reading and writing.
+    # ab+ - Opens a file for both appending and reading in binary format. The file pointer is at the 
+    #       end of the file if the file exists. The file opens in the append mode. If the file does 
+    #       not exist, it creates a new file for reading and writing.
+
+
+
+```
 [TOP](#content)
 
 ## desktop
