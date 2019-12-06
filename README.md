@@ -887,7 +887,7 @@ print(x.strftime("%A"))
 
 ## files
 
-```python 
+```python
     create_path = os.path.join('usr', 'bin', 'spam') # usr/bin/spam
 
     print(os.path.abspath(path))
@@ -903,7 +903,7 @@ print(x.strftime("%A"))
     cwd = os.getcwd() # C:/Data/Test
     os.makedirs('C:/delicious/walnut/waffles')
 
-    # set permissions on file    
+    # set permissions on file
     import stat
     os.chmod(
         'waffles',
@@ -914,7 +914,7 @@ print(x.strftime("%A"))
         stat.S_IROTH
     )
 
-    os.getsize('C:/delicious/walnut/waffles.txt') 
+    os.getsize('C:/delicious/walnut/waffles.txt')
     os.listdir(cwd) # return array of directories
 
     os.path.exists(path) # return True or False # isdir, isfile
@@ -924,44 +924,131 @@ print(x.strftime("%A"))
         content_of_file = some_file.read()
         some_file.write('Text')
         print(content)
-        
+
         # ctx = some_file.readlines() # return array of lines with \n
         # print(ctx)
         # for line in some_file: # can use loop also
         #  print(line)
 
 
-    # r - Opens a file for reading only. The file pointer is placed at 
-    #     the beginning of the file. This is the default mode.
-    # rb - Opens a file for reading only in binary format. The file 
-    #      pointer is placed at the beginning of the file. This is the default mode.
-    # r+ - Opens a file for both reading and writing. The file pointer will be at 
-    #      the beginning of the file.
-    # rb+ - Opens a file for both reading and writing in binary format. The file pointer 
+    # r -   Opens a file for reading only. The file pointer is placed at
+    #       the beginning of the file. This is the default mode.
+    # rb -  Opens a file for reading only in binary format. The file
+    #       pointer is placed at the beginning of the file. This is the default mode.
+    # r+ -  Opens a file for both reading and writing. The file pointer will be at
+    #       the beginning of the file.
+    # rb+ - Opens a file for both reading and writing in binary format. The file pointer
     #       will be at the beginning of the file.
-    # w - Opens a file for writing only. Overwrites the file if the file exists. If the 
-    #     file does not exist, creates a new file for writing.
-    # wb - Opens a file for writing only in binary format. Overwrites the file if the file
-    #      exists. If the file does not exist, creates a new file for writing.
-    # w+ - Opens a file for both writing and reading. Overwrites the existing file if the 
-    #      file exists. If the file does not exist, creates a new file for reading and writing.
+    # w -   Opens a file for writing only. Overwrites the file if the file exists. If the
+    #       file does not exist, creates a new file for writing.
+    # wb -  Opens a file for writing only in binary format. Overwrites the file if the file
+    #       exists. If the file does not exist, creates a new file for writing.
+    # w+ -  Opens a file for both writing and reading. Overwrites the existing file if the
+    #       file exists. If the file does not exist, creates a new file for reading and writing.
     # wb+ - Opens a file for both writing and reading in binary format. Overwrites the existing
     #       file if the file exists. If the file does not exist, creates a new file for reading and writing.
-    # a - Opens a file for appending. The file pointer is at the end of the file if the file exists.
-    #     That is, the file is in the append mode. If the file does not exist, it creates a new file for writing.
-    # ab - Opens a file for appending in binary format. The file pointer is at the end of the file 
-    #      if the file exists. That is, the file is in the append mode. If the file does not exist,
-    #      it creates a new file for writing.
-    # a+ - Opens a file for both appending and reading. The file pointer is at the end of the file 
-    #      if the file exists. The file opens in the append mode. If the file does not exist,
-    #      it creates a new file for reading and writing.
-    # ab+ - Opens a file for both appending and reading in binary format. The file pointer is at the 
-    #       end of the file if the file exists. The file opens in the append mode. If the file does 
+    # a -   Opens a file for appending. The file pointer is at the end of the file if the file exists.
+    #       That is, the file is in the append mode. If the file does not exist, it creates a new file for writing.
+    # ab -  Opens a file for appending in binary format. The file pointer is at the end of the file
+    #       if the file exists. That is, the file is in the append mode. If the file does not exist,
+    #       it creates a new file for writing.
+    # a+ -  Opens a file for both appending and reading. The file pointer is at the end of the file
+    #       if the file exists. The file opens in the append mode. If the file does not exist,
+    #       it creates a new file for reading and writing.
+    # ab+ - Opens a file for both appending and reading in binary format. The file pointer is at the
+    #       end of the file if the file exists. The file opens in the append mode. If the file does
     #       not exist, it creates a new file for reading and writing.
 
+    # To store variables into file and not plain text use shelve module
 
+    import shelve
+    shelfFile = shelve.open('fileName')
+    cats = ['Zophie', 'Pooka', 'Simon']
+    shelfFile['cats'] = cats
+    shelfFile.close()
+
+    shelfFile = shelve.open('fileName')
+    type(shelfFile) # <class 'shelve.DbfilenameShelf'>
+    shelfFile['cats'] # ['Zophie', 'Pooka', 'Simon']
+    shelfFile.close()
+
+    shelfFile = shelve.open('fileName')
+    list(shelfFile.keys()) # ['cats']
+    list(shelfFile.values()) # [['Zophie', 'Pooka', 'Simon']]
+    shelfFile.close()
+```
+
+#### Organizing Files
+
+The **_shutil_** module provides functions for copying files, as well as entire folders.
+
+```python
+import shutil, os
+
+# copy single file
+shutil.copy('C:/spam.txt', 'C:/delicious') # 'C:/delicious/spam.txt'
+shutil.copy('eggs.txt', 'C:/delicious/eggs2.txt') # 'C:/delicious/eggs2.txt'
+
+# copy all in folder
+shutil.copytree('C:/bacon', 'C:/bacon_backup') # (from, to)
+
+# move folder/rename
+shutil.move('C:/bacon.txt', 'C:/eggs') # 'C:/eggs/bacon.txt'
+
+# delete file
+os.unlink(path)  # Calling os.unlink(path) will delete the file at path.
+
+os.rmdir(path) # Calling os.rmdir(path) will delete the folder at path. This folder must be empty of any files or folders.
+
+shutil.rmtree(path) # Calling shutil.rmtree(path) will remove the folder at path, and all files and folders it contains will also be deleted.
+
+for filename in os.listdir():
+    if filename.endswith('.txt'):
+        #os.unlink(filename)
+        print(filename)
+
+
+# A much better way to delete files and folders is with the third-party send2trash module.
+pip install send2trash
+
+# check folder tree
+for folderName, subfolders, filenames in os.walk(path):
+    print('The current folder is ' + folderName)
+
+    for subfolder in subfolders:
+        print('SUBFOLDER OF ' + folderName + ': ' + subfolder)
+    for filename in filenames:
+        print('FILE INSIDE ' + folderName + ': '+ filename)
+
+    print('')
 
 ```
+
+#### ZIP
+
+```python
+import zipfile, os
+
+os.chdir('C:/') # move to the folder with example.zip
+exampleZip = zipfile.ZipFile('example.zip')
+exampleZip.namelist() # .zip file content ['spam.txt', 'cats/', 'cats/catnames.txt', 'cats/zophie.jpg']
+spamInfo = exampleZip.getinfo('spam.txt')
+spamInfo.file_size # 13908
+spamInfo.compress_size # 3828
+
+exampleZip.extractall() # extract all files in current directory, you can pass path
+
+exampleZip.extract('spam.txt') # Extract single file in current directory
+exampleZip.extract('spam.txt', 'C:/some/new/folders') # Extract to path
+exampleZip.close()
+
+# ZIP more files into already exiting ZIP file
+newZip = zipfile.ZipFile('new.zip', 'w')
+newZip.write('spam.txt', compress_type=zipfile.ZIP_DEFLATED)
+newZip.close()
+
+```
+
 [TOP](#content)
 
 ## desktop
