@@ -261,3 +261,35 @@ def backupToZip(folder):
 backupToZip('C:/delicious')
 
 #################################################################################################################################
+# Simple encryption function
+def caesar_chiper(msg='', mode='dec'):
+  print('MESSAGE: ', msg)
+  
+  SYMBOLS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 !?.'
+  key = 13
+  translated = ''
+  
+  for symbol in msg:
+    # Note: Only symbols in the SYMBOLS string can be encrypted/decrypted.
+    if symbol in SYMBOLS:
+      symbolIndex = SYMBOLS.find(symbol)
+      # Perform encryption/decryption:
+      translatedIndex = symbolIndex - key
+      if mode == 'enc':
+        translatedIndex = symbolIndex + key
+
+      # Handle wraparound, if needed:
+      if translatedIndex >= len(SYMBOLS):
+        translatedIndex = translatedIndex - len(SYMBOLS)
+      elif translatedIndex < 0:
+        translatedIndex = translatedIndex + len(SYMBOLS)
+    
+      translated = translated + SYMBOLS[translatedIndex]
+    else:
+      # Append the symbol without encrypting/decrypting:
+      translated = translated + symbol
+
+  return translated
+
+text = caesar_chiper(msg='Testing.', mode='enc')
+print(text)
