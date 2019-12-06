@@ -12,7 +12,7 @@
 - [Regular Expressions](#regex)<br/>
 - [JSON in Python](#json)<br/>
 - [URLLIB module](#url)<br/>
-- [Dates in Python](#date)<br/>
+- [Dates/Time in Python](#date)<br/>
 - [Working with files](#files)<br/>
 - [Desktop app with Tkinter](#desktop)<br/>
 - [Django with REST](#django)
@@ -739,6 +739,9 @@ finally:
 # The 'try except' is finished
 
 # Look file-reader for example
+
+# manually rise exception
+raise Exception('This is the error message.')
 ```
 
 [TOP](#content)
@@ -881,6 +884,44 @@ import datetime
 x = datetime.datetime.now()
 print(x.year)
 print(x.strftime("%A"))
+```
+
+#### Scheduling Tasks
+
+```python
+from datetime import datetime, timedelta
+from threading import Timer
+
+def calculate_schedule_time(time_to_schedule_in={'days':1, 'hours':0, 'minutes':0, 'seconds':0 }):
+  current_date=datetime.now()
+
+  delta = timedelta(
+    days=time_to_schedule_in['days'],
+    hours=time_to_schedule_in['hours'],
+    minutes=time_to_schedule_in['minutes'],
+    seconds=time_to_schedule_in['seconds'],
+    microseconds=0,
+  )
+
+  to_execute_date = current_date + delta
+  delta_t=to_execute_date-current_date
+
+  print('Timer set in: ', delta_t)
+  total_in_seconds=delta_t.total_seconds()
+
+  return total_in_seconds
+
+def schedule(time_in_secs, calback):
+  t = Timer(time_in_secs, calback)
+  t.start()
+
+def hello_world():
+    print("hello world")
+    #...
+
+time_to_schedule={'days':0, 'hours':0, 'minutes':0, 'seconds':30 }
+timer = calculate_schedule_time(time_to_schedule)
+schedule(timer, hello_world)
 ```
 
 [TOP](#content)
@@ -1047,6 +1088,27 @@ newZip = zipfile.ZipFile('new.zip', 'w')
 newZip.write('spam.txt', compress_type=zipfile.ZIP_DEFLATED)
 newZip.close()
 
+```
+
+#### EXCEL
+
+```python
+# TODO https://automatetheboringstuff.com/chapter12/
+# https://openpyxl.readthedocs.io/en/stable/
+# Add docs and small example
+```
+
+#### PDF and WORD
+
+```python
+# TODO https://automatetheboringstuff.com/chapter13/
+# http://www.blog.pythonlibrary.org/2018/06/07/an-intro-to-pypdf2/
+```
+
+#### CSV and JSON
+
+```python
+# TODO https://automatetheboringstuff.com/chapter14/
 ```
 
 [TOP](#content)
