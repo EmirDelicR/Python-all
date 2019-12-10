@@ -14,6 +14,7 @@
 - [URLLIB module](#url)<br/>
 - [Dates/Time in Python](#date)<br/>
 - [Working with files](#files)<br/>
+- [Trace and improve functions](#trace)
 - [Desktop app with Tkinter](#desktop)<br/>
 - [Django with REST](#django)
   - [URLs](#urls)
@@ -42,6 +43,10 @@
 - [Links](#links)
 
 ## intro
+
+[Awesome-Python-Git](https://github.com/vinta/awesome-python)
+
+[Awesome-Django-Git](https://github.com/shahraizali/awesome-django)
 
 [Official page](https://www.python.org/)
 
@@ -1109,6 +1114,43 @@ newZip.close()
 
 ```python
 # TODO https://automatetheboringstuff.com/chapter14/
+```
+
+[TOP](#content)
+
+## trace
+
+```python
+
+def memoize(f):
+  cache = {}
+  def helper(x):
+      if x not in cache:
+          cache[x] = f(x)
+      return cache[x]
+  return helper
+
+def trace(f):
+  f.indent = 0
+  def helper(x):
+      print('|  ' * f.indent + '|--', f.__name__, x)
+      f.indent += 1
+      value = f(x)
+      print('|  ' * f.indent + '|--', 'return', repr(value))
+      f.indent -= 1
+      return value
+  return helper
+
+# this is same as calling trace(fib)
+@memoize  # Order of decorators is important (executed first)
+@trace # (excecuted second)
+def fib(n):
+    if n == 0 or n == 1:
+      return 1
+
+    return fib(n-1) + fib(n-2)
+
+print(fib(4))
 ```
 
 [TOP](#content)

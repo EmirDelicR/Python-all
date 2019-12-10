@@ -261,6 +261,8 @@ def backupToZip(folder):
 backupToZip('C:/delicious')
 
 #################################################################################################################################
+# https://inventwithpython.com/cracking/
+#################################################################################################################################
 # Simple encryption function
 def caesar_chiper(msg='', mode='dec'):
   print('MESSAGE: ', msg)
@@ -293,3 +295,113 @@ def caesar_chiper(msg='', mode='dec'):
 
 text = caesar_chiper(msg='Testing.', mode='enc')
 print(text)
+
+#################################################################################################################################
+# Brute force caesar_chiper function
+def brute_force_caesar_chiper(msg=""):
+  SYMBOLS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 !?.'
+  # Loop through every possible key:
+  for key in range(len(SYMBOLS)):
+    # It is important to set translated to the blank string so that the
+    # previous iteration's value for translated is cleared:
+    translated = ''
+    # The rest of the program is almost the same as the Caesar program:
+
+    # Loop through each symbol in message:
+    for symbol in msg:
+      if symbol in SYMBOLS:
+        symbolIndex = SYMBOLS.find(symbol)
+        translatedIndex = symbolIndex - key
+
+        # Handle the wraparound:
+        if translatedIndex < 0:
+          translatedIndex = translatedIndex + len(SYMBOLS)
+        # Append the decrypted symbol:
+        translated = translated + SYMBOLS[translatedIndex]
+      else:
+        # Append the symbol without encrypting/decrypting:
+        translated = translated + symbol
+    # Display every possible decryption:
+    print('Key #%s: %s' % (key, translated))
+
+brute_force_caesar_chiper(msg = 'guv6Jv6Jz!J6rp5r7Jzr66ntrM')
+
+#################################################################################################################################
+
+def encrypt_message(key, message):
+  # Each string in ciphertext represents a column in the grid:
+  if key < 2 or key > len(message)/2:
+    print(f'key is not valid! Must be betwean 2 and {int(len(message)/2)}')
+    return 
+  ciphertext = [''] * key # ['', '', '', '', '', '', '', '']
+  # Loop through each column in ciphertext:
+  for column in range(key):
+    currentIndex = column
+    # Keep looping until currentIndex goes past the message length:
+    while currentIndex < len(message):
+      # Place the character at currentIndex in message at the
+      # end of the current column in the ciphertext list:
+      print(column, ' : ', currentIndex)
+      ciphertext[column] += message[currentIndex]
+      # Move currentIndex over:
+      currentIndex += key
+
+  # Convert the ciphertext list into a single string value and return it:
+  print(''.join(ciphertext))
+
+
+encrypt_message(key=15, message="Common sense is not so common.")
+
+#################################################################################################################################
+# Example of interators using yield and next
+import copy
+
+def test_iterator():
+  vowels = ['a', 'e', 'i', 'o', 'u']
+  vowelsIter = iter(vowels) 
+  print(next(vowelsIter)) # 'a'
+  print(next(vowelsIter)) # 'e'
+  print(next(vowelsIter)) # 'i'
+  print(next(vowelsIter)) # 'o'
+  print(next(vowelsIter)) # 'u'
+
+  def peep(it):
+    it_copy = copy.copy(it)
+    return [next(it_copy), it]
+
+  it = iter(range(5))
+  x, it1 = peep(it)
+  print(x, list(it1))
+  # 0 [0, 1, 2, 3, 4]
+
+
+#################################################################################################################################
+# Improve execution of function using cache 
+def memoize(f):
+  cache = {}
+  def helper(x):
+      if x not in cache:            
+          cache[x] = f(x)
+      return cache[x]
+  return helper
+
+def trace(f):
+  f.indent = 0
+  def g(x):
+      print('|  ' * f.indent + '|--', f.__name__, x)
+      f.indent += 1
+      value = f(x)
+      print('|  ' * f.indent + '|--', 'return', repr(value))
+      f.indent -= 1
+      return value
+  return g
+
+@memoize
+@trace
+def fib(n):
+    if n == 0 or n == 1:
+      return 1
+    
+    return fib(n-1) + fib(n-2)
+
+print(fib(4))
