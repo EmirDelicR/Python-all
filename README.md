@@ -1529,6 +1529,30 @@ class User(AbstractUser):
 
 **_Set up postgres DB_**
 
+pgadmin III
+
+```console
+vim /etc/postgresql/10/main/pg_hba.conf
+
+
+# Database administrative login by Unix domain socket
+# TODO: set to trust
+local   all             postgres                                trust
+
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+# "local" is for Unix domain socket connections only
+local   all             all                                     peer
+# IPv4 local connections:
+# TODO: set to trust
+host    all             all             127.0.0.1/32            trust
+# IPv6 local connections:
+host    all             all             ::1/128                 md5
+
+service postgresql restart
+```
+
+
+
 login to
 
 ```console
