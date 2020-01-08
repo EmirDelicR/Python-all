@@ -41,6 +41,7 @@
   - [Some useful functions](#functions)
 - [Client setup](#client)
 - [Links](#links)
+- [Tips](#tips)
 
 ## intro
 
@@ -2073,3 +2074,138 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
 [sql-queries-django](https://docs.djangoproject.com/en/2.2/topics/db/queries/)
 
 [TOP](#content)
+
+## tips
+
+Multi assignment
+
+```python
+>>> x = y = z = 2
+>>> x, y, z
+(2, 2, 2)
+```
+
+```python
+>>> x, y, z = 2, 4, 8
+>>> x
+2
+>>> y
+4
+>>> z
+8
+```
+
+```python
+>>> x, *y, z = 2, 4, 8, 16
+>>> x
+2
+>>> y
+[4, 8]
+>>> z
+16
+```
+
+Merge Dictionaries
+
+```python
+>>> x = {'u': 1}
+>>> y = {'v': 2}
+>>> z = {**x, **y, 'w': 4}
+>>> z
+{'u': 1, 'v': 2, 'w': 4}
+
+```
+
+Iterations
+
+```python
+>>> for i, item in enumerate(['u', 'v', 'w']):
+... print('index:', i, 'element:', item)
+...
+index: 0 element: u
+index: 1 element: v
+index: 2 element: w
+
+```
+
+Reversed Iteration
+
+```python
+>>> for item in reversed(['u', 'v', 'w']):
+... print(item)
+...
+w
+v
+u
+
+```
+
+Aggregate Elements
+
+```python
+>>> x = [1, 2, 4]
+>>> y = ('u', 'v', 'w')
+>>> z = zip(x, y)
+>>> z
+
+>>> list(z)
+[(1, 'u'), (2, 'v'), (4, 'w')]
+
+```
+
+Transpose Matrices
+
+```python
+>>> x = [(1, 2, 4), ('u', 'v', 'w')]
+>>> y = zip(*x)
+>>> z = list(y)
+>>> z
+[(1, 'u'), (2, 'v'), (4, 'w')]
+
+```
+
+Unique Values
+
+```python
+>>> x = [1, 2, 1, 4, 8]
+>>> y = set(x)
+>>> y
+{8, 1, 2, 4}
+>>> z = list(y)
+>>> z
+[8, 1, 2, 4]
+
+```
+
+Sort Sequences
+
+```python
+>>> x = (1, 'v')
+>>> y = (4, 'u')
+>>> z = (2, 'w')
+>>> sorted([x, y, z])
+[(1, 'v'), (2, 'w'), (4, 'u')]
+
+# OR SORT ON SECOND ELEMENT
+>>> sorted([x, y, z], key=lambda item: item[1])
+[(4, 'u'), (1, 'v'), (2, 'w')]
+
+# REVERSED
+>>> sorted([x, y, z], key=lambda item: item[1], reverse=True)
+[(2, 'w'), (1, 'v'), (4, 'u')]
+
+# SORT DICTIONARIES (KEYS)
+>>> x = {'u': 4, 'w': 2, 'v': 1}
+>>> sorted(x.items())
+[('u', 4), ('v', 1), ('w', 2)]
+
+# SORT DICTIONARIES (VALUES)
+>>> sorted(x.items(), key=lambda item: item[1])
+[('v', 1), ('w', 2), ('u', 4)]
+>>> sorted(x.items(), key=lambda item: item[1], reverse=True)
+[('u', 4), ('w', 2), ('v', 1)]
+```
+
+
+[TOP](#content)
+
