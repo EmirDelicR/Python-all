@@ -2206,6 +2206,150 @@ Sort Sequences
 [('u', 4), ('w', 2), ('v', 1)]
 ```
 
+Anagrams
+
+```python
+from collections import Counter
+
+def anagram(first, second):
+    return Counter(first) == Counter(second)
+
+
+anagram("abcd3", "3acdb") # True
+```
+
+Memory
+
+```python
+import sys
+
+variable = 30
+print(sys.getsizeof(variable)) # 24
+```
+
+Byte Size
+
+```python
+def byte_size(string):
+    return(len(string.encode('utf-8')))
+
+byte_size('😀') # 4
+byte_size('Hello World')
+```
+
+Capitalize first letters
+
+```python
+s = "programming is awesome"
+
+print(s.title())
+```
+
+Chunk
+
+This method chunks a list into smaller lists of a specified size.
+
+```python
+def chunk(list, size):
+    return [list[i:i+size] for i in range(0,len(list), size)]
+```
+
+Compact
+
+This method removes falsy values (False, None, 0 and “”) from a list by using filter().
+
+```python
+def compact(lst):
+    return list(filter(None, lst))
+
+compact([0, 1, False, 2, '', 3, 'a', 's', 34]) # [ 1, 2, 3, 'a', 's', 34 ]
+```
+
+Get vowels
+
+```python
+def get_vowels(string):
+    return [each for each in string if each in 'aeiou']
+
+get_vowels('foobar') # ['o', 'o', 'a']
+get_vowels('gym') # []
+```
+
+Decapitalize
+
+```python
+def decapitalize(str):
+    return str[:1].lower() + str[1:]
+
+decapitalize('FooBar') # 'fooBar'
+decapitalize('FooBar') # 'fooBar'
+```
+
+Flatten
+
+The following methods flatten a potentially deep list using recursion.
+
+```python
+def spread(arg):
+    ret = []
+    for i in arg:
+        if isinstance(i, list):
+            ret.extend(i)
+        else:
+            ret.append(i)
+    return ret
+
+def deep_flatten(xs):
+    flat_list = []
+    [flat_list.extend(deep_flatten(x)) for x in xs] if isinstance(xs, list) else flat_list.append(xs)
+    return flat_list
+
+deep_flatten([1, [2], [[3], 4], 5]) # [1,2,3,4,5]
+```
+
+Difference
+
+This method finds the difference between two iterables by keeping only the values that are in the first one.
+
+```python
+def difference(a, b):
+    set_a = set(a)
+    set_b = set(b)
+    comparison = set_a.difference(set_b)
+    return list(comparison)
+
+
+difference([1,2,3], [1,2,4]) # [3]
+```
+
+Difference by
+
+The following method returns the difference between two lists after applying a given function to each element of both lists.
+
+```python
+def difference_by(a, b, fn):
+    b = set(map(fn, b))
+    return [item for item in a if fn(item) not in b]
+
+
+from math import floor
+difference_by([2.1, 1.2], [2.3, 3.4], floor) # [1.2]
+difference_by([{ 'x': 2 }, { 'x': 1 }], [{ 'x': 1 }], lambda v : v['x']) # [ { x: 2 } ]
+```
+
+Calculator without if-else
+
+```python
+import operator
+action = {
+    "+": operator.add,
+    "-": operator.sub,
+    "/": operator.truediv,
+    "*": operator.mul,
+    "**": pow
+}
+print(action['-'](50, 25)) # 25
+```
 
 [TOP](#content)
 
